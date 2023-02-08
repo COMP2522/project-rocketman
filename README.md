@@ -1,5 +1,7 @@
 # Project
 
+Hello World!
+
 ## Technical Project Requirements
 
 The minimum requirements for the project are outlined here to give you a starting point. Meeting the minimum requirements alone will not guarantee you a good mark. You are welcome to meet and exceed the minimum requirements if you have good, creative ideas and would like to discuss them with me.
@@ -18,23 +20,23 @@ The minimum requirements for the project are outlined here to give you a startin
 
 The project pitch will be a short document that describes the kind of interactive application you would like to create with your group. The project pitch must include the following items:
 
-*One-liner*: One-sentence description of your project.
-*Outline*: 1-10 sentences that describe how your project will fulfill the project requirements.
-*Communication policies*: A description of how your group will meet, communicate, and make decisions (as per Lab 03).
-*Roles and responsibilities*: A description of each team member's jobs in the group.
-*Milestones*: A rough outline of the major project milestones that you expect to complete and your own estimated timeline. This can and will change, so do your best to estimate and plan for the milestones to change.
+_One-liner_: One-sentence description of your project.
+_Outline_: 1-10 sentences that describe how your project will fulfill the project requirements.
+_Communication policies_: A description of how your group will meet, communicate, and make decisions (as per Lab 03).
+_Roles and responsibilities_: A description of each team member's jobs in the group.
+_Milestones_: A rough outline of the major project milestones that you expect to complete and your own estimated timeline. This can and will change, so do your best to estimate and plan for the milestones to change.
 
 Draft was due today, final due next lab. Submission here, on GitHub. Make a `.md` file that outlines the above.
 
 ## Initial UML Diagrams (group, 1%)
 
-The initial UML diagrams will outline the class structure that your group will follow for the first milestone of the project. It must include the following items all classes that will be created by the group and important descriptive interfaces from either the Java library or created by the group. I expect that this will change significantly throughout the project, so it does not have to be perfect but it should be a best effort attempt. This is because you will use this to communicate with your group members about what to make. Therefore, the diagram should be *sufficiently complex* to give you a term's worth of work.
+The initial UML diagrams will outline the class structure that your group will follow for the first milestone of the project. It must include the following items all classes that will be created by the group and important descriptive interfaces from either the Java library or created by the group. I expect that this will change significantly throughout the project, so it does not have to be perfect but it should be a best effort attempt. This is because you will use this to communicate with your group members about what to make. Therefore, the diagram should be _sufficiently complex_ to give you a term's worth of work.
 
 Draft due next Lab, final due two labs from now. Submission here, on GitHub. Suggestion is to use a tool like [draw.io](https://app.diagrams.net/) but you may use whatever tool is most useful for you.
 
 ## Initial GitHub Issues (group, 1%)
 
-The initial GitHub issues will be the tasks that are assigned to each of your group members at the beginning of the project. Every team member should have at least five issues to start (20-30 total). You will have to decide within your group how granular you want to make these issues. 
+The initial GitHub issues will be the tasks that are assigned to each of your group members at the beginning of the project. Every team member should have at least five issues to start (20-30 total). You will have to decide within your group how granular you want to make these issues.
 
 Issues will be tracked here, on GitHub.
 
@@ -46,7 +48,7 @@ No submission.
 
 ## Final README.md (group, 1%)
 
-The Final README.md must give instructions on how to run your program, a list of contributions by each member, and any references/citations for code you may have used from elsewhere. 
+The Final README.md must give instructions on how to run your program, a list of contributions by each member, and any references/citations for code you may have used from elsewhere.
 
 Submission is here, on GitHub, in the `README.md` file.
 
@@ -77,32 +79,39 @@ Contributions must be for functional, working Java code and must be continuous t
 Your code must be well-documented with fully-formed method signatures, comments, and necessary README or Wiki pages. This is further broken down into the following.
 
 ### Initial individual pitch (1%)
-A description of your individual feature that you plan to implement. 
+
+A description of your individual feature that you plan to implement.
 
 Due date TBD.
 
 ### Initial individual UML Diagrams (1%)
-Any combination of sequence, communcation, or class diagrams that describe your feature's initial planned abilities. 
+
+Any combination of sequence, communcation, or class diagrams that describe your feature's initial planned abilities.
 
 Due date TBD.
 
 ### Documentation contributions (3%)
+
 Your personal feature documentation, wherever it happens to show up in the final documentation.
 
 Due with final submission.
 
 ## Issues and Pull Request Contributions (individual, 5%)
+
 You must track your own work in the form of creating and closing GitHub issues, creating and reviewing pull requests, responding to issues that have been assigned to you, and creating issues that you assign to others (all within reason).
 
 # Errata
+
 The project MUST be managed here, in this GitHub repo. Nothing that happens outside of this GitHub repo will be trackable by me, therefore, it will not be marked or considered for marking.
 
 You must use the following branching structures:
+
 - `main` branch must always be working, tested, debugged, human-readable code.
 - `<initals>_<issue #>_<optional description>` is the format for each ISSUE that you're working on. It should always be a branch off of `main`.
 - Every individual branch must regularly merge `main`, and it should be no more than a few days before your branch is either merged into `main` or deleted.
 
 You must use pull requests to manage your code integration:
+
 - make your branch from `main`, e.g., `git checkout -b pb_71_demo`
 - make your commits, e.g., `git add .` and `git commit -m "fixed issue 71 by reloading gradle for the 100th time"` and `git push origin pb_71_demo`.
 - merge `main` into your branch, and NOT the other way around. E.g., `git merge main`. YOU fix all the merge conflicts or problems that arise. Commit and push again.
@@ -111,5 +120,3 @@ You must use pull requests to manage your code integration:
 - If needed, make the requested fixes and commit and push again.
 - the other person (NOT YOU) will merge your PR into `main`
 - the other person (NOT YOU) will delete your branch
-
-
