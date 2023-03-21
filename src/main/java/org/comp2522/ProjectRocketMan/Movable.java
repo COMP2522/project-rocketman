@@ -25,11 +25,10 @@ public interface Movable {
   PVector getPosition();
 
   /**
-   * Moves the movable object by the specified amount in the x and y directions.
-   * @param dx - The distance to move the object in the x direction.
-   * @param dy - The distance to move the object in the y direction.
+   * Moves the movable object by its own velocity amount in the x and y directions.
+   *
    */
-  void move(double dx, double dy);
+  void move();
 
   /**
    * Returns the speed of the movable object.
