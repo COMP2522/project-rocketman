@@ -11,9 +11,9 @@ public abstract class Sprite {
 
 
 
-  private PVector position;
+  protected PVector position;
 
-  private PVector direction;
+  protected PVector direction;
 
   public Sprite(PVector position, PVector direction) {
     this.direction = direction;
