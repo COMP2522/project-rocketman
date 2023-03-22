@@ -34,13 +34,13 @@ public interface Movable {
    * Returns the speed of the movable object.
    * @return A double value containing the x and y velocities of the movable object.
    */
-  double getSpeed();
+  float getSpeed();
 
   /**
    * Sets the velocity of the movable object to the specified values in the x and y directions.
    * @param speed The velocity to set in both direction.
    */
-  void setSpeed(double speed);
+  void setSpeed(float speed);
 
 
   /**

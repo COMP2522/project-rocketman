@@ -14,11 +14,13 @@ public class Rocket extends Sprite implements Movable, Destroyable{
 
   Window_temp window;
 
-  public Rocket(PVector position, PVector direction, PImage image, Window_temp window){
+  float speed;
+
+  public Rocket(PVector position, PVector direction, PImage image, Window_temp window, float speed){
     super(position, direction);
     this.image = image;
     this.window = window;
-
+    this.speed = speed;
   }
 
 
@@ -56,26 +58,31 @@ public class Rocket extends Sprite implements Movable, Destroyable{
 
   @Override
   public void setPosition(PVector position) {
+    this.position = position;
 
   }
 
   @Override
   public PVector getPosition() {
-    return null;
+    return position;
   }
 
   @Override
   public void move() {
+    PVector temp = getPosition();
+    temp.add(getSpeed(), getSpeed());
+    setPosition(temp);
 
   }
 
   @Override
-  public double getSpeed() {
-    return 0;
+  public float getSpeed() {
+    return speed;
   }
 
   @Override
-  public void setSpeed(double speed) {
+  public void setSpeed(float speed) {
+    this.speed = speed;
 
   }
 
