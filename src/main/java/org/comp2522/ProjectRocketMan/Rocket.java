@@ -12,11 +12,11 @@ public class Rocket extends Sprite implements Movable, Destroyable{
 
   PImage image;
 
-  Window_temp window;
+  Window window;
 
   float speed;
 
-  public Rocket(PVector position, PVector direction, PImage image, Window_temp window, float speed){
+  public Rocket(PVector position, PVector direction, PImage image, Window window, float speed){
     super(position, direction);
     this.image = image;
     this.window = window;
@@ -37,7 +37,7 @@ public class Rocket extends Sprite implements Movable, Destroyable{
 
   public void draw(){
     float angle = PVector.angleBetween(position,new PVector(0, 1));
-    window.rotate(radians(angle));
+//    window.rotate(radians(angle));
     window.image(image,position.x, position.y, image.height / 4, image.width / 4);
 
   }
