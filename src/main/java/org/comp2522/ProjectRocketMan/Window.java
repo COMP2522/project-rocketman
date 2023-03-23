@@ -1,5 +1,6 @@
 package org.comp2522.ProjectRocketMan;
 
+import com.mongodb.internal.connection.tlschannel.WouldBlockException;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -18,6 +19,8 @@ import java.util.ArrayList;
  *
  */
 public class Window extends PApplet {
+
+  static Window window;
   ArrayList<Sprite> sprites;
 
   ArrayList<Rocket> rockets;
@@ -30,17 +33,43 @@ public class Window extends PApplet {
 //  ArrayList<Enemy> enemies;
   Player player;
   int numEnemies = 100;
-  int minSize = 10;
-  int maxSize = 20;
+
+  private int heightOfWindow;
+
+  private int widthOfWindow;
+  private int minSize;
+  private int maxSize;
 
 //  Wall wall;
 
+
+  private Window(int height, int width){
+    this.heightOfWindow = height;
+    this.widthOfWindow = width;
+    player = Player.getInstance();
+  }
+
+
+  public static Window getInstance(int height, int width){
+    if(window == null){
+     return window = new Window(height, width);
+    }
+  return  window;
+  }
+
+
+
+  public Window getInstance(){
+    return window;
+  }
   /**
    * Called once at the beginning of the program.
    */
   public void settings() {
-    size(1000, 1000);
+    size(widthOfWindow, heightOfWindow);
   }
+
+
 
 
   /**
@@ -150,7 +179,7 @@ public class Window extends PApplet {
    */
   public static void main(String[] passedArgs) {
     String[] appletArgs = new String[]{"eatBubbles"};
-    Window eatBubbles = new Window();
+    Window eatBubbles = Window.getInstance(1000,1000);
     PApplet.runSketch(appletArgs, eatBubbles);
   }
 }
