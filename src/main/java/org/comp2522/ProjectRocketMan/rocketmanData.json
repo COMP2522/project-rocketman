@@ -1,0 +1,16 @@
+{
+  "levels": [
+    {
+      "name": "Level 1",
+      "difficulty": "easy",
+      "rocketNum": 2,
+      "speed": 5
+    },
+    {
+      "name": "Level 2",
+      "difficulty": "medium",
+      "rocketNum": 3,
+      "speed": 8
+    }
+  ]
+}
