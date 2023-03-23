@@ -1,3 +1,4 @@
+package org.comp2522.ProjectRocketMan;
 import processing.core.PApplet;
 import processing.core.PImage;
 import java.util.ArrayList;
