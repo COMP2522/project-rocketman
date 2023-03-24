@@ -20,22 +20,52 @@ import java.util.ArrayList;
  */
 public class Window extends PApplet {
 
+  /**
+   * Static variable to store the instance of the Window.
+   */
   static Window window;
+
+  /**
+   * A collection for Sprites
+   */
   ArrayList<Sprite> sprites;
 
+
+  /**
+   * A collection for rocekts.
+   */
   ArrayList<Rocket> rockets;
 
+  /**
+   * A collection for Moveble objects
+   */
   ArrayList<Movable> moveables;
 
+  /**
+   * The image of the rocket.
+   */
   PImage rocket_image;
 
+  /**
+   * The image of the rocket man
+   */
   PImage rocket_man_image;
 //  ArrayList<Enemy> enemies;
+
+  /**
+   * This stores the instance of the player
+   */
   Player player;
   int numEnemies = 100;
 
+  /**
+   * Height of the Window.
+   */
   private int heightOfWindow;
 
+  /**
+   * Width of the Window.
+   */
   private int widthOfWindow;
   private int minSize;
   private int maxSize;
@@ -52,9 +82,9 @@ public class Window extends PApplet {
 
   public static Window getInstance(int height, int width){
     if(window == null){
-     return window = new Window(height, width);
+      return window = new Window(height, width);
     }
-  return  window;
+    return  window;
   }
 
 
@@ -93,17 +123,17 @@ public class Window extends PApplet {
     rocket_image = loadImage("images/rockect_images/rocket_2.png");
     rocket_man_image = loadImage("images/rocket_man_images/My project.png");
     player = Player.getInstance(new PVector(200,500),
-            new PVector(random(-1, 1), random(-1,1)), rocket_man_image, this, -2);
+        new PVector(random(-1, 1), random(-1,1)), rocket_man_image, this, -2);
     for(int i = 0; i < 10; i++){
       rockets.add(new Rocket(new PVector(random(0, 1000), random(0,1000)),
-              new PVector(random(-1, 1), random(-1,1)), rocket_image, this,random(-10, 10)));
+          new PVector(random(-1, 1), random(-1,1)), rocket_image, this,random(-10, 10)));
     }
     rockets.add(new Rocket(new PVector(0, 0),
-             new PVector(random(-1, 1), random(-1,1)), rocket_image, this,1));
-  sprites.addAll(rockets);
-  moveables.addAll(rockets);
-  sprites.add(player);
-  moveables.add(player);
+        new PVector(random(-1, 1), random(-1,1)), rocket_image, this,1));
+    sprites.addAll(rockets);
+    moveables.addAll(rockets);
+    sprites.add(player);
+    moveables.add(player);
 
 //    for (int i = 0; i < numEnemies; i++) {
 //      enemies.add(new Enemy(
@@ -137,7 +167,7 @@ public class Window extends PApplet {
 //      wall.draw();
 //      if (wall.collided(sprite)) {
 //        sprite.setDirection(sprite.getDirection().mult(-1));
-      }
+    }
     for(Movable move : moveables){
       move.move();
     }
