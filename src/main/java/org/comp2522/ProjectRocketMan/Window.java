@@ -1,12 +1,12 @@
 package org.comp2522.ProjectRocketMan;
 
-import com.mongodb.internal.connection.tlschannel.WouldBlockException;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 import processing.event.KeyEvent;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Lab-02 starter code.
@@ -19,6 +19,12 @@ import java.util.ArrayList;
  *
  */
 public class Window extends PApplet {
+
+
+  /**
+   * Holds the manager class instance.
+   */
+  GameManager manager;
 
   /**
    * Static variable to store the instance of the Window.
@@ -76,7 +82,8 @@ public class Window extends PApplet {
   private Window(int height, int width){
     this.heightOfWindow = height;
     this.widthOfWindow = width;
-    player = Player.getInstance();
+    sprites = new ArrayList<Sprite>();
+    moveables = new ArrayList<Movable>();
   }
 
 
@@ -89,7 +96,7 @@ public class Window extends PApplet {
 
 
 
-  public Window getInstance(){
+  public static Window getInstance(){
     return window;
   }
   /**
@@ -107,7 +114,8 @@ public class Window extends PApplet {
    * Initializes all objects.
    */
   public void setup() {
-    this.init();
+    manager.init(sprites, moveables);
+    player = Player.getInstance();
   }
 
   public void init() {
@@ -117,23 +125,23 @@ public class Window extends PApplet {
 //            2,
 //            new Color(0,255,0),
 //            this, 350, 200);
-    rockets = new ArrayList<Rocket>();
-    sprites = new ArrayList<Sprite>();
-    moveables = new ArrayList<Movable>();
-    rocket_image = loadImage("images/rockect_images/rocket_2.png");
-    rocket_man_image = loadImage("images/rocket_man_images/My project.png");
-    player = Player.getInstance(new PVector(200,500),
-        new PVector(random(-1, 1), random(-1,1)), rocket_man_image, this, -2);
-    for(int i = 0; i < 10; i++){
-      rockets.add(new Rocket(new PVector(random(0, 1000), random(0,1000)),
-          new PVector(random(-1, 1), random(-1,1)), rocket_image, this,random(-10, 10)));
-    }
-    rockets.add(new Rocket(new PVector(0, 0),
-        new PVector(random(-1, 1), random(-1,1)), rocket_image, this,1));
-    sprites.addAll(rockets);
-    moveables.addAll(rockets);
-    sprites.add(player);
-    moveables.add(player);
+//    rockets = new ArrayList<Rocket>();
+//    sprites = new ArrayList<Sprite>();
+//    moveables = new ArrayList<Movable>();
+//    rocket_image = loadImage("images/rockect_images/rocket_2.png");
+//    rocket_man_image = loadImage("images/rocket_man_images/My project.png");
+//    player = Player.getInstance(new PVector(200,500),
+//        new PVector(random(-1, 1), random(-1,1)), rocket_man_image, -2);
+//    for(int i = 0; i < 10; i++){
+//      rockets.add(new Rocket(new PVector(random(0, 1000), random(0,1000)),
+//          new PVector(random(-1, 1), random(-1,1)), rocket_image, random(-10, 10)));
+//    }
+//    rockets.add(new Rocket(new PVector(0, 0),
+//        new PVector(random(-1, 1), random(-1,1)), rocket_image,1));
+//    sprites.addAll(rockets);
+//    moveables.addAll(rockets);
+//    sprites.add(player);
+//    moveables.add(player);
 
 //    for (int i = 0; i < numEnemies; i++) {
 //      enemies.add(new Enemy(
@@ -172,6 +180,7 @@ public class Window extends PApplet {
       move.move();
     }
 
+    manager.manageTheGame();
 
 
 
@@ -201,6 +210,11 @@ public class Window extends PApplet {
     player.keyPressed(event);
   }
 
+  public void startWindow(GameManager manager){
+    this.manager = manager;
+    String[] appletArgs = new String[]{"eatBubbles"};
+    PApplet.runSketch(appletArgs, this);
+  }
 
   /**
    * Main function.
@@ -208,8 +222,8 @@ public class Window extends PApplet {
    * @param passedArgs arguments from command line
    */
   public static void main(String[] passedArgs) {
-    String[] appletArgs = new String[]{"eatBubbles"};
-    Window eatBubbles = Window.getInstance(1000,1000);
-    PApplet.runSketch(appletArgs, eatBubbles);
+//    String[] appletArgs = new String[]{"eatBubbles"};
+//    Window eatBubbles = Window.getInstance(1000,1000);
+//    PApplet.runSketch(appletArgs, eatBubbles);
   }
 }
