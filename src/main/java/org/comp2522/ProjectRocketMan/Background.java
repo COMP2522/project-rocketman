@@ -1,19 +1,24 @@
 package org.comp2522.ProjectRocketMan;
-import processing.core.PApplet;
 import processing.core.PImage;
+import processing.core.PVector;
+
 import java.util.ArrayList;
 
-public class Background {
+public class Background extends Sprite implements Movable {
   private PImage image;
+
   private float x;
   private float y;
   private float speed;
   private ArrayList<Coin> coins;
   private ArrayList<Zapper> zappers;
-  private PApplet parent;
+  private Window window;
 
-  public Background(PApplet parent, PImage image, float speed) {
-    this.parent = parent;
+  private float scrollSpeed = 1.5f;
+
+  public Background(PImage image, float speed, PVector position, PVector direction) {
+    super(position,direction);
+    this.window = Window.getInstance();
     this.image = image;
     this.speed = speed;
     this.x = 0;
@@ -22,8 +27,33 @@ public class Background {
     this.zappers = new ArrayList<>();
   }
 
+  @Override
+  public void setPosition(PVector position) {
+    this.position = position;
+  }
+
+  @Override
+  public PVector getPosition() {
+    return position;
+  }
+
+  @Override
+  public void move() {
+    position.add(-1 * speed,0);
+  }
+
+  @Override
+  public float getSpeed() {
+    return speed;
+  }
+
   public void setSpeed(float speed) {
     this.speed = speed;
+  }
+
+  @Override
+  public void setDirection(PVector direction) {
+    this.direction = direction;
   }
 
   public void setCoinNum(int numCoins) {
@@ -50,13 +80,13 @@ public class Background {
     }
   }
 
-  public ArrayList<Float> getCoinPositions() {
-    ArrayList<Float> positions = new ArrayList<>();
-    for (Coin coin : coins) {
-      positions.add(coin.getPosition());
-    }
-    return positions;
-  }
+//  public ArrayList<Float> getCoinPositions() {
+//    ArrayList<Float> positions = new ArrayList<>();
+//    for (Coin coin : coins) {
+//      positions.add(coin.getPosition());
+//    }
+//    return positions;
+//  }
 
   public ArrayList<Float> getZapperPositions() {
     ArrayList<Float> positions = new ArrayList<>();
@@ -67,18 +97,38 @@ public class Background {
   }
 
   public void draw() {
-    // Draw the background image
-    parent.image(image, x, y);
-    if (x < 0) {
-      parent.image(image, x + image.width, y);
-    }
 
-    // Draw the coins and zappers
-    for (Coin coin : coins) {
-      coin.draw(parent);
-    }
-    for (Zapper zapper : zappers) {
-      zapper.draw(parent);
+    position.y = scrollSpeed;
+    position.x -= scrollSpeed * 5;
+//    position.y = scrollSpeed * 16;
+
+
+    int offsetX = (int) (position.x % image.width - image.width);
+    int offsetY = (int) (position.y % image.height - image.height);
+
+
+    for (int x = offsetX; x < image.width; x += image.width) {
+      for (int y = offsetY; y < image.height; y += image.height) {
+        window.image(image, x, y);
+      }
+
     }
   }
+
+
+
+
+  // Draw the background image
+//    window.image(image, position.x, position.y);
+//    if (x < 0) {
+//      parent.image(image, x + image.width, y);
+////    }
+//
+//    // Draw the coins and zappers
+//    for (Coin coin : coins) {
+//      coin.draw(window);
+//    }
+//    for (Zapper zapper : zappers) {
+//      zapper.draw(window);
+//    }
 }
