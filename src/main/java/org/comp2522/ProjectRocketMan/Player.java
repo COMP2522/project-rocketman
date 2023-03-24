@@ -16,26 +16,26 @@ public class Player extends Sprite implements Movable, Destroyable{
    */
   private float speed = 0;
 
-  private float acceleration = 0.5f;
+  private float acceleration = 1f;
 
   private float maxSpeed = -7f;
 
-  private float gravity = 0.1f;
+  private float gravity = 0.3f;
 
   private static Player player;
 
 
 
 
-  private Player(PVector position, PVector direction, PImage image, Window window, float speed) {
+  private Player(PVector position, PVector direction, PImage image, float speed) {
     super(position, direction);
     this.image = image;
-    this.window = window;
+    this.window = Window.getInstance();
   }
 
-  public static Player getInstance(PVector position, PVector direction, PImage image, Window window, float speed) {
+  public static Player getInstance(PVector position, PVector direction, PImage image, float speed) {
     if (player == null) {
-      player = new Player(position, direction, image, window, speed);
+      player = new Player(position, direction, image, speed);
     }
     return player;
   }
@@ -134,16 +134,21 @@ public class Player extends Sprite implements Movable, Destroyable{
 
     PVector temp = new PVector(getPosition().x, getPosition().y);
 
-    if(temp.y + getSpeed() > image.height/10f && temp.y + getSpeed() < 1000 - image.height/10f ) {
+    if(temp.y + getSpeed() > image.height/10f && temp.y + getSpeed() < window.height - image.height/10f ) {
 
       temp.add(0, getSpeed());
       setPosition(temp);
     }
-    if(position.y + getSpeed() > (1000 -image.height / 10f ) && speed != 0){
+    if(position.y + getSpeed() > (window.height -image.height / 10f ) && speed != 0){
       this.speed = 0;
     } else {
-      if(position.y + getSpeed() < (1000 - image.height / 10f)){
-        setSpeed(getSpeed() + getGravity());
+      if(position.y + getSpeed() < (window.height - image.height / 10f)){
+        if(getSpeed() > -maxSpeed){
+          setSpeed(-maxSpeed);
+        } else{
+          setSpeed(getSpeed() + getGravity());
+        }
+
       }
 
     }
@@ -154,7 +159,7 @@ public class Player extends Sprite implements Movable, Destroyable{
   @Override
   void draw() {
     System.out.println("Speed: " + speed + "\n"
-    + "Y position: " + position.y + "\n");
+        + "Y position: " + position.y + "\n");
     float angle = PVector.angleBetween(position,new PVector(0, 1));
 //    window.rotate(radians(angle));
     window.image(this.image,position.x, position.y, image.height / 10f, image.width / 10f);
