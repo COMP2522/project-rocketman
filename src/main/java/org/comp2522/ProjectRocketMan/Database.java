@@ -15,7 +15,7 @@ public class Database {
   MongoDatabase mongoDB;
 
   private Database() {
-    ConnectionString connectionString = new ConnectionString("mongodb+srv://aditya:aditya123@comp-2522.jyuxhsa.mongodb.net/?retryWrites=true&w=majority");
+    ConnectionString connectionString = new ConnectionString(System.getProperty("MONGODB_URL"));
     MongoClientSettings settings = MongoClientSettings.builder()
         .applyConnectionString(connectionString)
         .serverApi(ServerApi.builder()
