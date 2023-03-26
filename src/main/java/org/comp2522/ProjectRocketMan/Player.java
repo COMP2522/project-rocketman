@@ -24,8 +24,6 @@ public class Player extends Sprite implements Movable, Destroyable{
 
   private static Player player;
 
-  private int score;
-
 
 
 
@@ -155,16 +153,8 @@ public class Player extends Sprite implements Movable, Destroyable{
 
     }
 
-
   }
 
-  public int getScore() {
-    return score;
-  }
-
-  public void setScore(int score) {
-    this.score = score;
-  }
 
   @Override
   void draw() {

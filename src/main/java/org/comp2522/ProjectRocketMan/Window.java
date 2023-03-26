@@ -176,15 +176,9 @@ public class Window extends PApplet {
 //      if (wall.collided(sprite)) {
 //        sprite.setDirection(sprite.getDirection().mult(-1));
     }
-
-
     for(Movable move : moveables){
       move.move();
     }
-
-    textSize(20);
-    textAlign(CENTER, CENTER);
-    text("Current Score: " + player.getScore(), width - 100, 20);
 
     manager.manageTheGame();
 
