@@ -4,6 +4,8 @@ package org.comp2522.ProjectRocketMan;
 import processing.core.PImage;
 import processing.core.PVector;
 
+import java.util.ArrayList;
+
 import static processing.core.PApplet.hex;
 import static processing.core.PApplet.radians;
 
@@ -96,6 +98,12 @@ public class Rocket extends Sprite implements Movable, Destroyable, Collidable {
   public void setDirection(PVector direction) {
 
   }
+
+  public static void manageItself(ArrayList<Rocket> rockets){
+
+
+  }
+
 
   @Override
   public boolean collided(Player player) {

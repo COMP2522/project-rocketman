@@ -24,6 +24,8 @@ public class Player extends Sprite implements Movable, Destroyable{
 
   private static Player player;
 
+  private int score;
+
 
 
 
@@ -131,30 +133,33 @@ public class Player extends Sprite implements Movable, Destroyable{
 
   @Override
   public void move() {
-
     PVector temp = new PVector(getPosition().x, getPosition().y);
-
-    if(temp.y + getSpeed() > image.height/10f && temp.y + getSpeed() < window.height - image.height/10f ) {
-
+    float bottomLimit = window.height - image.height/10f - 90;// set bottom limit to 50 pixels above the bottom of the window
+    if (temp.y + getSpeed() >= image.height/10f && temp.y + getSpeed() <= bottomLimit) {
       temp.add(0, getSpeed());
       setPosition(temp);
     }
-    if(position.y + getSpeed() > (window.height -image.height / 10f ) && speed != 0){
+    if (position.y + getSpeed() >= bottomLimit && speed != 0) {
       this.speed = 0;
     } else {
-      if(position.y + getSpeed() < (window.height - image.height / 10f)){
-        if(getSpeed() > -maxSpeed){
+      if (position.y + getSpeed() < bottomLimit) {
+        if (getSpeed() > -maxSpeed) {
           setSpeed(-maxSpeed);
-        } else{
+        } else {
           setSpeed(getSpeed() + getGravity());
         }
-
       }
-
     }
-
   }
 
+
+  public int getScore() {
+    return score;
+  }
+
+  public void setScore(int score) {
+    this.score = score;
+  }
 
   @Override
   void draw() {
