@@ -148,7 +148,6 @@ public class Player extends Sprite implements Movable, Destroyable{
         } else{
           setSpeed(getSpeed() + getGravity());
         }
-
       }
 
     }
