@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import processing.core.PApplet.*;
+import java.util.Random;
 
 import org.json.simple.JSONObject;
 import processing.core.PImage;
@@ -27,6 +27,11 @@ public class GameManager {
   private List<Collidable> collidables;
 
   private List<Movable> moveables;
+
+  private  List<Coin> coins;
+
+  private Heart heart;
+
   private boolean isRunning;
   private boolean isPaused;
   private int currentLevel;
@@ -36,6 +41,23 @@ public class GameManager {
   private int rocketSpeed;
   private int coinsPerWindow;
   private int zapperNums;
+
+
+
+
+  /* References to different images*/
+  private PImage rocket_image;
+  private PImage rocket_man_image;
+
+  private PImage background_images;
+
+  private PImage coin;
+
+  private PImage[] coinAnimation;
+
+  private PImage[] heartAnimaton;
+
+
 
   public GameManager() {
     isRunning = false;
@@ -55,18 +77,18 @@ public class GameManager {
 
 
   public void init(ArrayList<Sprite> sprites, ArrayList<Movable> movables) {
-
+    this.coins = new ArrayList<Coin>();
     this.sprites = sprites;
     this.moveables = movables;
     this.collidables = new ArrayList<Collidable>();
-    PImage rocket_image = window.loadImage("images/rockect_images/rocket_2.png");
-    PImage rocket_man_image = window.loadImage("images/rocket_man_images/My project.png");
-    PImage background_images = window.loadImage("images/rocket_man_backgrounds/AIgen.png");
-    PImage coin = window.loadImage("images/rocket_man_coins/star coin rotate 1.png");
+    rocket_image = window.loadImage("images/rockect_images/rocket_3.png");
+    rocket_man_image = window.loadImage("images/rocket_man_images/My project2.png");
+    background_images = window.loadImage("images/rocket_man_backgrounds/AIgen.png");
+    coin = window.loadImage("images/rocket_man_coins/star coin rotate 1.png");
+
 
     background = new Background(background_images,1, new PVector(0,0),
         new PVector(1, 1) );
-    System.out.println("inside init");
     player = Player.getInstance(new PVector(window.width * 0.10f,window.height / 2),
         new PVector(1, 1), rocket_man_image, -2);
 //    currentLevel = 1;
@@ -81,16 +103,28 @@ public class GameManager {
 //    sprites = new ArrayList<Sprite>();
 //    moveables = new ArrayList<Movable>();
 
-    for(int i = 0; i < 2; i++){
-      rockets.add(new Rocket(new PVector(window.width, i * 200),
-          new PVector(window.random(-1, 1), window.random(-1,1)), rocket_image, window.random(-10, -1)));
-    }
+
+
+//    for(int i = 0; i < 2; i++){
+//      rockets.add(new Rocket(new PVector(window.width, i * 200),
+//          new PVector(window.random(-1, 1), window.random(-1,1)), rocket_image, window.random(-10, -1)));
+//    }
+
+    setupCoinAnimations();
+    setupHeartAnimations();
+//    for(int i = 0; i < 10; i++){
+//      coins.add(new Coin(new PVector(window.width + i * 50, i * 50), new PVector(window.width, i * 200), coinAnimation, 1));
+//    }
     this.sprites.add(background);
     this.moveables.add(background);
+
+    this.sprites.addAll(coins);
     this.sprites.addAll(rockets);
     this.moveables.addAll(rockets);
     this.sprites.add(player);
     this.moveables.add(player);
+    this.moveables.addAll(coins);
+    this.collidables.addAll(coins);
     this.collidables.addAll(rockets);
 
 
@@ -106,19 +140,246 @@ public class GameManager {
   }
 
 
+  private void setupCoinAnimations(){
+    coinAnimation = new PImage[6];
+    for(int i = 1; i <= 6; i++){
+      coinAnimation[i - 1] = window.loadImage("images/rocket_man_coins/star coin rotate " + i + ".png");
+    }
+  }
+
+  private void setupHeartAnimations(){
+    heartAnimaton = new PImage[5];
+    for(int i = 1; i <= 5; i++){
+      heartAnimaton[i - 1] = window.loadImage("images/Hearts/heart0" + i + ".png");
+    }
+  }
+
+  /*Code to manage Different Things*/
+
   public void manageTheGame(){
+    checkForCollisions();
+    manageRockets();
+    manageCoins();
+    manageHeart();
+    updatePlayerScoer();
+
+  }
+
+
+
+  private void checkForCollisions(){
+    ArrayList<Collidable> toRemove = new ArrayList<Collidable>();
     for (Collidable temp : collidables) {
       if (temp.collided(player)){
-        System.out.println("Player x: " + player.getPosition().x + " Player x: " + player.getPosition().y + "\n");
-        System.out.println("rocket x: " + ((Movable) temp).getPosition().x + " rocket y: " + ((Movable) temp).getPosition().y + "\n");
         if(temp instanceof Rocket){
-          window.exit();
+          System.out.println("Player dead if heart zero!!\n");
+          sprites.remove((Sprite) temp);
+          toRemove.add(temp);
+//          window.init();
+        }else {
+          if (temp instanceof Coin) {
+            player.setNumberOfCoinsCollected(player.getNumberOfCoinsCollected() + 1);
+            sprites.remove((Sprite) temp);
+            toRemove.add(temp);
+          } else {
+            player.setHearts(player.getHearts() + 1);
+            sprites.remove((Sprite) temp);
+            toRemove.add(temp);
+          }
         }
+
       }
+
+    }
+    collidables.removeAll(toRemove);
+  }
+
+
+
+  /*Code to Manage Player*/
+  private void updatePlayerScoer(){
+    player.setScore((int) (player.getScore() + background.getSpeed()));
+  }
+
+
+  /*Code to Manage Heart*/
+  private void manageHeart() {
+    if(heart == null){
+      heart = new Heart(new PVector(1000, 440), new PVector(0,0), heartAnimaton, background.getSpeed());
+      sprites.add(heart);
+      collidables.add(heart);
+      moveables.add(heart);
+    }
+    if(heart.getPosition().x < 50){
+      heart.setPosition(new PVector(1000, 440));
+      collidables.add(heart);
+      sprites.add(heart);
+    }
+
+
+  }
+
+
+
+  /* Code to Manage Rockets*/
+  private void manageRockets(){
+    ArrayList<Rocket> rocketsOutOfBound = new ArrayList<Rocket>();
+    int numberofRocketsOffScreen = 0;
+
+    for(Rocket temp : rockets){
+      if(temp.getPosition().x < -50 ){
+        rocketsOutOfBound.add(temp);
+        numberofRocketsOffScreen++;
+      }
+    }
+    rockets.removeAll(rocketsOutOfBound);
+    sprites.removeAll(rocketsOutOfBound);
+    moveables.removeAll(rocketsOutOfBound);
+    moveables.removeAll(rocketsOutOfBound);
+    collidables.removeAll(rocketsOutOfBound);
+
+    if(rockets.size() == 0){
+      numberofRocketsOffScreen = 4;
+      addRockets(numberofRocketsOffScreen);
+    }
+
+  }
+
+
+  private void addRockets(int rocketsToAdd){
+    for(int i = 0; i < rocketsToAdd; i++){
+      Rocket tobeAdded = new Rocket(new PVector(window.random(window.width, window.width * 2), window.random(0,window.height)),
+          new PVector(window.random(-1, 1), window.random(-1,1)), rocket_image, window.random(-10, -1));
+      rockets.add(tobeAdded);
+      sprites.add(tobeAdded);
+      moveables.add(tobeAdded);
+      collidables.add(tobeAdded);
+    }
+
+
+  }
+
+
+
+
+
+
+
+
+
+
+  /*Code to Manage Coins*/
+
+  private void manageCoins(){
+    ArrayList<Coin> coinsOutOfBound = new ArrayList<Coin>();
+    int numberofCoinsOffScreen = 0;
+    for(Coin temp : coins){
+      if(temp.getPosition().x < -50 ){
+        coinsOutOfBound.add(temp);
+        numberofCoinsOffScreen++;
+      }
+    }
+    coins.removeAll(coinsOutOfBound);
+    sprites.removeAll(coinsOutOfBound);
+    moveables.removeAll(coinsOutOfBound);
+    moveables.removeAll(coinsOutOfBound);
+    collidables.removeAll(coinsOutOfBound);
+    if (coins.size() == 0){
+      addCoins();
+    }
+
+  }
+
+  private void addCoins() {
+    Random random = new Random();
+    int numberOfCoinsTobeAdded = (int) window.random(0,10);
+    int typeOfPatternToPutCoinsIn = random.nextInt(3);
+
+
+    switch(typeOfPatternToPutCoinsIn){
+      case 0:
+        makeCoinsInALine(numberOfCoinsTobeAdded);
+        break;
+      case 1:
+        makeCoinsInZigZag(numberOfCoinsTobeAdded);
+        break;
+      case 2:
+        makeCoinsInARectangle();
+        break;
+      default:
+        makeCoinsScatter(numberOfCoinsTobeAdded);
 
     }
 
   }
+
+  private void makeCoinsScatter(int numberOfCoinsTobeAdded) {
+  }
+
+  private void makeCoinsInARectangle() {
+    Random random = new Random();
+    int numberOfCoinsTobeAdded = (int) window.random(0,20);
+    int widthOfRectangle = (int) window.random(1, numberOfCoinsTobeAdded);
+    int heightOfRectangle = numberOfCoinsTobeAdded / widthOfRectangle;
+    int y = random.nextInt(5) + 1;
+    int x = random.nextInt(5) + 1;
+    float startPositionOfLine = window.random(window.width + window.width / 10f, 2 * window.width * 2);
+    float yPositionOfTheLine = window.random(10f, window.height - heightOfRectangle * (coinAnimation[0].height / 50f));
+    float speedForAllCoinsInThePattern = window.random(10, 1);
+
+    for(int i = 0; i < y; i++){
+      Coin toBeAdded;
+      for(int j = 0; j < x; j++){
+        toBeAdded = getCoinInstance(startPositionOfLine + j * (coinAnimation[0].height / 50f), yPositionOfTheLine + i * (coinAnimation[0].height / 50f) , speedForAllCoinsInThePattern);
+
+      }
+    }
+
+
+  }
+
+  private void makeCoinsInZigZag(int numberOfCoinsTobeAdded) {
+    Random random = new Random();
+    float startPositionOfLine = window.random(window.width + window.width / 10f, 2 * window.width * 2);
+    float yPositionOfTheLine = window.random(10f, window.height - 50);
+    float speedForAllCoinsInThePattern = window.random(10, 1);
+    int numberOfZigZags = (int) window.random(1, numberOfCoinsTobeAdded - 1);
+    int zigZagStartUporDown = random.nextBoolean() ? 1 : -1;
+
+    for(int i = 0; i < numberOfCoinsTobeAdded; i++){
+      Coin toBeAdded = getCoinInstance(startPositionOfLine, yPositionOfTheLine, speedForAllCoinsInThePattern);
+      startPositionOfLine = startPositionOfLine + toBeAdded.getWidth();
+      yPositionOfTheLine = yPositionOfTheLine + (toBeAdded.getHeight() *  zigZagStartUporDown);
+    }
+
+  }
+
+  private void makeCoinsInALine(int numberOfCoinsTobeAdded){
+    float startPositionOfLine = window.random(window.width + window.width / 10f, 2 * window.width * 2);
+    float yPositionOfTheLine = window.random(10f, window.height - 50);
+    float speedForAllCoinsInThePattern = window.random(10, 1);
+
+    for(int i = 0; i < numberOfCoinsTobeAdded; i++){
+      Coin toBeAdded = getCoinInstance(startPositionOfLine, yPositionOfTheLine, speedForAllCoinsInThePattern);
+      startPositionOfLine = startPositionOfLine + toBeAdded.getWidth();
+    }
+
+  }
+
+
+  private Coin getCoinInstance(float xPosition, float yPosition, float speedOfCoins){
+    Coin temp = new Coin(new PVector(xPosition, yPosition),
+        new PVector(0,0), coinAnimation, speedOfCoins);
+    coins.add(temp);
+    sprites.add(temp);
+    moveables.add(temp);
+    collidables.add(temp);
+
+    return temp;
+
+  }
+
+
 
   public void gameOver() throws FileNotFoundException {
     isRunning = false;
