@@ -120,5 +120,3 @@ You must use pull requests to manage your code integration:
 - If needed, make the requested fixes and commit and push again.
 - the other person (NOT YOU) will merge your PR into `main`
 - the other person (NOT YOU) will delete your branch
-#   P r o j e c t _ R o c k e t _ M a n _ M a n g a t _ L o c a l _ F i l e s  
- 
