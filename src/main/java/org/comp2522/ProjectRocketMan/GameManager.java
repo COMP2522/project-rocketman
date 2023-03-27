@@ -39,10 +39,6 @@ public class GameManager {
   private int currentSpeed;
   private int rocketNums;
   private int rocketSpeed;
-  private int coinsPerWindow;
-  private int zapperNums;
-
-
 
 
   /* References to different images*/
@@ -88,33 +84,13 @@ public class GameManager {
 
 
     background = new Background(background_images,1, new PVector(0,0),
-        new PVector(1, 1) );
+            new PVector(1, 1) );
     player = Player.getInstance(new PVector(window.width * 0.10f,window.height / 2),
-        new PVector(1, 1), rocket_man_image, -2);
-//    currentLevel = 1;
-//    currentSpeed = 3;
-//    rocketSpeed = 5;
-//    coinsPerWindow = 6;
-//    background.setSpeed(currentSpeed);
-//    background.setCoinNum(coinsPerWindow);
-//    background.setZapperNum(zapperNums);
-
+            new PVector(1, 1), rocket_man_image, 0);
     rockets = new ArrayList<Rocket>();
-//    sprites = new ArrayList<Sprite>();
-//    moveables = new ArrayList<Movable>();
-
-
-
-//    for(int i = 0; i < 2; i++){
-//      rockets.add(new Rocket(new PVector(window.width, i * 200),
-//          new PVector(window.random(-1, 1), window.random(-1,1)), rocket_image, window.random(-10, -1)));
-//    }
-
     setupCoinAnimations();
     setupHeartAnimations();
-//    for(int i = 0; i < 10; i++){
-//      coins.add(new Coin(new PVector(window.width + i * 50, i * 50), new PVector(window.width, i * 200), coinAnimation, 1));
-//    }
+
     this.sprites.add(background);
     this.moveables.add(background);
 
@@ -126,19 +102,7 @@ public class GameManager {
     this.moveables.addAll(coins);
     this.collidables.addAll(coins);
     this.collidables.addAll(rockets);
-
-
-
-//    for (int i = 0; i < rocketNums; i++) {
-//      PVector position = 0;
-//      PVector direction = 0;
-//      PImage image = "";
-//      Rocket tempRocket = new Rocket(position, direction, image, window);
-//      tempRocket.setSpeed(rocketSpeed);
-//      rockets.add(tempRocket);
-//    }
   }
-
 
   private void setupCoinAnimations(){
     coinAnimation = new PImage[6];
@@ -157,15 +121,48 @@ public class GameManager {
   /*Code to manage Different Things*/
 
   public void manageTheGame(){
+    draw();
+    move();
     checkForCollisions();
     manageRockets();
     manageCoins();
     manageHeart();
+    manageBackground();
     updatePlayerScoer();
-
   }
 
 
+  private void draw(){
+    drawSprites();
+    drawInformation();
+
+  }
+
+  private void drawInformation() {
+    window.textSize(20);
+    window.textAlign(window.CENTER, window.CENTER);
+    window.text("Current Score: " + player.getScore(), window.width - 100, 20);
+
+    window.text("Coins: " + player.getNumberOfCoinsCollected(), window.width - 250, 20);
+    window.text("Hearts: " + player.getHearts(), window.width - 350, 20);  window.textSize(20);
+    window.textAlign(window.CENTER, window.CENTER);
+    window.text("Current Score: " + player.getScore(), window.width - 100, 20);
+
+    window.text("Coins: " + player.getNumberOfCoinsCollected(), window.width - 250, 20);
+    window.text("Hearts: " + player.getHearts(), window.width - 350, 20);
+  }
+
+
+  private void drawSprites(){
+    for (Sprite sprite : sprites) {
+      sprite.draw();
+    }
+  }
+  private void move(){
+    for(Movable move : moveables){
+      move.move();
+    }
+  }
 
   private void checkForCollisions(){
     ArrayList<Collidable> toRemove = new ArrayList<Collidable>();
@@ -175,6 +172,10 @@ public class GameManager {
           System.out.println("Player dead if heart zero!!\n");
           sprites.remove((Sprite) temp);
           toRemove.add(temp);
+          player.setHearts(player.getHearts() - 1);
+          if(player.getHearts() <= 0) {
+//            player.getHearts() = 0;
+          }
 //          window.init();
         }else {
           if (temp instanceof Coin) {
@@ -211,12 +212,26 @@ public class GameManager {
       moveables.add(heart);
     }
     if(heart.getPosition().x < 50){
-      heart.setPosition(new PVector(1000, 440));
-      collidables.add(heart);
-      sprites.add(heart);
+
+      heart.setPosition(new PVector(window.random(window.width, window.width * 2), window.random(0,window.height)));
+      if(!sprites.contains(heart)){
+        sprites.add(heart);
+        collidables.add(heart);
+      }
     }
 
+    heart.setSpeed(background.getSpeed());
 
+
+  }
+
+  /*Code to manage background*/
+  private void manageBackground(){
+    if(window.frameCount % 200 == 0){
+      background.setSpeed(Window.min(10f, background.getSpeed() + 0.2f));
+      System.out.println(background.getSpeed()+ "\n");
+
+    }
   }
 
 
@@ -227,6 +242,9 @@ public class GameManager {
     int numberofRocketsOffScreen = 0;
 
     for(Rocket temp : rockets){
+
+      temp.setSpeed((background.getSpeed() * -1) - (0.4f * background.getSpeed()));
+
       if(temp.getPosition().x < -50 ){
         rocketsOutOfBound.add(temp);
         numberofRocketsOffScreen++;
@@ -239,7 +257,9 @@ public class GameManager {
     collidables.removeAll(rocketsOutOfBound);
 
     if(rockets.size() == 0){
-      numberofRocketsOffScreen = 4;
+
+      numberofRocketsOffScreen = 2;
+
       addRockets(numberofRocketsOffScreen);
     }
 
@@ -249,7 +269,10 @@ public class GameManager {
   private void addRockets(int rocketsToAdd){
     for(int i = 0; i < rocketsToAdd; i++){
       Rocket tobeAdded = new Rocket(new PVector(window.random(window.width, window.width * 2), window.random(0,window.height)),
-          new PVector(window.random(-1, 1), window.random(-1,1)), rocket_image, window.random(-10, -1));
+
+              new PVector(window.random(-1, 1), window.random(-1,1)), rocket_image,
+              (background.getSpeed() * -1) - (0.2f * background.getSpeed()));
+
       rockets.add(tobeAdded);
       sprites.add(tobeAdded);
       moveables.add(tobeAdded);
@@ -369,7 +392,9 @@ public class GameManager {
 
   private Coin getCoinInstance(float xPosition, float yPosition, float speedOfCoins){
     Coin temp = new Coin(new PVector(xPosition, yPosition),
-        new PVector(0,0), coinAnimation, speedOfCoins);
+
+            new PVector(0,0), coinAnimation, speedOfCoins);
+
     coins.add(temp);
     sprites.add(temp);
     moveables.add(temp);
@@ -448,7 +473,10 @@ public class GameManager {
     jo.put("currentLevel", currentLevel);
     jo.put("currentSpeed", currentSpeed);
     jo.put("rocketNums", rocketNums);
-    jo.put("rocketSpeed", rocketSpeed);
+
+//    jo.put("rocketSpeed", rocketSpeed);
+
+
     jo.put("coinsPerWindow", coinsPerWindow);
     jo.put("zapperNums", zapperNums);
 

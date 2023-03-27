@@ -10,6 +10,8 @@ public class Background extends Sprite implements Movable {
   private float x;
   private float y;
   private float speed;
+
+  private ArrayList<Heart> coins;
   private ArrayList<Coin> coins;
   private ArrayList<Zapper> zappers;
   private Window window;
@@ -91,15 +93,15 @@ public class Background extends Sprite implements Movable {
   public ArrayList<Float> getZapperPositions() {
     ArrayList<Float> positions = new ArrayList<>();
     for (Zapper zapper : zappers) {
-      positions.add(zapper.getPosition());
+//      positions.add(zapper.getPosition());
     }
     return positions;
   }
 
   public void draw() {
-
-    position.y = scrollSpeed;
-    position.x -= scrollSpeed * 5;
+  
+    position.y = speed;
+    position.x -= speed;
 //    position.y = scrollSpeed * 16;
 
 
