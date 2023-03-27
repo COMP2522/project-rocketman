@@ -1,6 +1,4 @@
 package org.comp2522.ProjectRocketMan;
-
-package org.comp2522.ProjectRocketMan;
 import processing.core.PImage;
 import processing.core.PVector;
 
@@ -12,7 +10,9 @@ public class Background extends Sprite implements Movable {
   private float x;
   private float y;
   private float speed;
+
   private ArrayList<Heart> coins;
+  private ArrayList<Coin> coins;
   private ArrayList<Zapper> zappers;
   private Window window;
 
@@ -74,11 +74,11 @@ public class Background extends Sprite implements Movable {
     }
 
     // Update the positions of the coins and zappers
-    for (Heart coin : coins) {
+    for (Coin coin : coins) {
       coin.update(speed);
     }
     for (Zapper zapper : zappers) {
-//      zapper.update(speed);
+      zapper.update(speed);
     }
   }
 
@@ -99,7 +99,7 @@ public class Background extends Sprite implements Movable {
   }
 
   public void draw() {
-
+  
     position.y = speed;
     position.x -= speed;
 //    position.y = scrollSpeed * 16;
