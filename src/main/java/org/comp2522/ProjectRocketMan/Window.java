@@ -5,6 +5,7 @@ import processing.core.PImage;
 import processing.core.PVector;
 import processing.event.KeyEvent;
 
+import java.awt.desktop.SystemEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,42 +120,7 @@ public class Window extends PApplet {
   }
 
   public void init() {
-//    wall = new Wall(new PVector(this.width/3,this.height/8),
-//            new PVector(0,1),
-//            minSize + 5,
-//            2,
-//            new Color(0,255,0),
-//            this, 350, 200);
-//    rockets = new ArrayList<Rocket>();
-//    sprites = new ArrayList<Sprite>();
-//    moveables = new ArrayList<Movable>();
-//    rocket_image = loadImage("images/rockect_images/rocket_2.png");
-//    rocket_man_image = loadImage("images/rocket_man_images/My project.png");
-//    player = Player.getInstance(new PVector(200,500),
-//        new PVector(random(-1, 1), random(-1,1)), rocket_man_image, -2);
-//    for(int i = 0; i < 10; i++){
-//      rockets.add(new Rocket(new PVector(random(0, 1000), random(0,1000)),
-//          new PVector(random(-1, 1), random(-1,1)), rocket_image, random(-10, 10)));
-//    }
-//    rockets.add(new Rocket(new PVector(0, 0),
-//        new PVector(random(-1, 1), random(-1,1)), rocket_image,1));
-//    sprites.addAll(rockets);
-//    moveables.addAll(rockets);
-//    sprites.add(player);
-//    moveables.add(player);
-
-//    for (int i = 0; i < numEnemies; i++) {
-//      enemies.add(new Enemy(
-//              new PVector(random(0, this.width), random(0, this.height)),
-//              new PVector(random(-1, 1), random(-1,1)),
-//              random(minSize, maxSize),
-//          \    random(0,2),
-//              new Color(255, 0, 0),
-//              this,
-//              wall));
-//    }
-//    sprites.addAll(enemies);
-//    sprites.add(player);
+    manager.init(sprites, moveables);
   }
 
 
@@ -166,44 +132,7 @@ public class Window extends PApplet {
    */
 
   public void draw() {
-
-
-    background(0);
-    for (Sprite sprite : sprites) {
-//      sprite.update();
-      sprite.draw();
-//      wall.draw();
-//      if (wall.collided(sprite)) {
-//        sprite.setDirection(sprite.getDirection().mult(-1));
-    }
-    for(Movable move : moveables){
-      move.move();
-    }
-
     manager.manageTheGame();
-
-
-
-//
-//    }
-//    ArrayList<Enemy> toRemove = new ArrayList<Enemy>();
-//    for (Enemy enemy : enemies) {
-//      if (Sprite.collided(player, enemy)) {
-//        toRemove.add(enemy);
-//      }
-//
-//    }
-//    for (Enemy enemy : toRemove) {
-//
-//      if (player.compareTo(enemy) > 0){
-//        enemies.remove(enemy);
-//        sprites.remove(enemy);
-//      } else {
-//        init();
-//      }
-//
-//    }
-
   }
 
   public void keyPressed(KeyEvent event) {
