@@ -44,7 +44,7 @@ public class Rocket extends Sprite implements Movable, Destroyable, Collidable {
 //    window.rotate(window.PI/4);
 //    window.imageMode(window.CENTER);
 //    window.rotate(radians(angle));
-    window.image(image,position.x, position.y, image.height / 2, image.width / 6);
+    window.image(image,position.x, position.y, image.height / 2f, image.width / 6f);
     window.stroke(0);        // set the stroke color to black
     window.fill(255, 0, 0);  // set the fill color to red
     window.ellipse(position.x,position.y, 4, 4);

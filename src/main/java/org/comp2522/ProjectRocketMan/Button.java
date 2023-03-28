@@ -58,9 +58,9 @@ public class Button {
    * @return true if the button is being clicked, false otherwise.
    */
   public boolean isClicked(){
+
     return window.mouseX >= position.x && window.mouseX <= position.x + dimensions.x &&
-        window.mouseY >= position.y && window.mouseY <= position.y + dimensions.y &&
-        window.mousePressed;
+        window.mouseY >= position.y && window.mouseY <= position.y + dimensions.y;
   }
 
   /**
