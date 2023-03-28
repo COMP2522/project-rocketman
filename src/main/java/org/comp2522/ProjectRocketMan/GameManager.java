@@ -58,6 +58,8 @@ public class GameManager {
 
   private PImage background_images;
 
+  private PImage menu_background;
+
   private PImage coin;
 
   private PImage[] coinAnimation;
@@ -98,6 +100,7 @@ public class GameManager {
     rocket_image      = window.loadImage("images/rockect_images/rocket_3.png");
     rocket_man_image  = window.loadImage("images/rocket_man_images/My project2.png");
     background_images = window.loadImage("images/rocket_man_backgrounds/AIgen.png");
+    menu_background   = window.loadImage("images/rocket_man_backgrounds/Start.png");
     coin              = window.loadImage("images/rocket_man_coins/star coin rotate 1.png");
     coinSound         = new SoundFile(window, "music/coin.wav");
     heartSound        = new SoundFile(window, "music/heart.wav");
@@ -105,14 +108,12 @@ public class GameManager {
     gameState         = 0;
 
 
-    background = new Background(background_images,
-        1,
-        new PVector(0,0),
-        new PVector(1,1));
-    player = Player.getInstance(new PVector(window.width * 0.10f,window.height / 2),
-        new PVector(1,                   1),
-        rocket_man_image,
-        0);
+  background = new Background(background_images,
+      1,
+      new PVector(0,0),
+      new PVector(1,1));
+      player = Player.getInstance(new PVector(window.width * 0.10f,window.height / 2),
+      new PVector(1,1), rocket_man_image, 0);
 
     rockets = new ArrayList<Rocket>();
     setUpGameUIs();
@@ -163,8 +164,8 @@ public class GameManager {
     Button[] pauseButtons = new Button[1];
     pauseButtons[0] = new Button(new PVector(window.width /2 , 400), new PVector(100, 50),"Quit");
     gameUIS    = new GameUI[3];
-    gameUIS[0] = new StartGameUI(new PVector(window.width /2 , 200), new PVector(100, 50), startButtons, this);
-    gameUIS[1] = new PauseGameUI(new PVector(window.width /2 , 600), new PVector(100, 50), pauseButtons, this);
+    gameUIS[0] = new StartGameUI(new PVector(window.width /2 , 200), new PVector(100, 50), startButtons, this, menu_background);
+    gameUIS[1] = new PauseGameUI(new PVector(window.width /2 , 600), new PVector(100, 50), pauseButtons, this, menu_background);
 
 
   }
@@ -194,19 +195,19 @@ public class GameManager {
         gameUIS[1].draw();
         break;
         //State when the game is paused;
+      case 3:
+        // state when player has died
+        gameUIS[0].draw();
       default:
         //Game has ended.
         ;
-
     }
-
   }
 
 
   private void draw(){
     drawSprites();
     drawInformation();
-
   }
 
   private void drawInformation() {
@@ -240,12 +241,15 @@ public class GameManager {
     for (Collidable temp : collidables) {
       if (temp.collided(player)){
         if(temp instanceof Rocket){
-          rocketSound.play();
           System.out.println("Player dead if heart zero!!\n");
           sprites.remove((Sprite) temp);
           toRemove.add(temp);
-//          window.init();
-        }else {
+          player.setHearts(player.getHearts() - 1);
+          if(player.getHearts() < 0){
+            gameState = 3;
+          }
+//  window.init();
+      }else {
           if (temp instanceof Coin) {
             coinSound.play();
             player.setNumberOfCoinsCollected(player.getNumberOfCoinsCollected() + 1);
@@ -271,7 +275,6 @@ public class GameManager {
   public void mouseEvents(){
     switch(gameState){
       case 0:
-
         gameUIS[0].checkForClicks();
         break;
       case 1:
