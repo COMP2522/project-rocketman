@@ -297,6 +297,7 @@ public class GameManager {
         gameUIS[0].checkForClicks();
         break;
       case 1:
+        player.keyPressed(event);
         if (event.getKey() == 'p' || event.getKey() == 'P') {
           gameState = 2;
         }
