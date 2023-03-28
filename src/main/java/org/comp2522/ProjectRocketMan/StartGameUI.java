@@ -1,6 +1,7 @@
 package org.comp2522.ProjectRocketMan;
 
 import processing.core.PVector;
+import processing.event.KeyEvent;
 
 public class StartGameUI extends GameUI{
 
@@ -21,5 +22,10 @@ public class StartGameUI extends GameUI{
       default:
         ;
     }
+  }
+
+  @Override
+  void keyEvent(KeyEvent keyEvent) {
+    //empty
   }
 }
