@@ -147,12 +147,11 @@ public class Window extends PApplet {
 
   @Override
   public void mouseClicked() {
-
     manager.mouseEvents();
   }
 
   public void keyPressed(KeyEvent event) {
-    player.keyPressed(event);
+    manager.keyEvents(event);
   }
 
   public void startWindow(GameManager manager){

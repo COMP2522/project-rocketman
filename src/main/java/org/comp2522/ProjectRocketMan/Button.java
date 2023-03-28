@@ -45,10 +45,11 @@ public class Button {
    * Draws the button on the screen.
    */
   public void draw(){
-    window.stroke(0);
-    window.fill(255);
-    window.rect(position.x, position.y, dimensions.x, dimensions.y);
+    System.out.println("inside button Draw\n");
+    window.stroke(255);
     window.fill(0);
+    window.rect(position.x, position.y, dimensions.x, dimensions.y);
+    window.fill(255);
     window.textAlign(window.CENTER, window.CENTER);
     window.text(label, position.x + dimensions.x/2, position.y + dimensions.y/2);
   }

@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import processing.event.KeyEvent;
 
 import org.json.simple.JSONObject;
 import processing.core.PImage;
@@ -118,14 +119,14 @@ public class GameManager {
 
     setupCoinAnimations();
     setupHeartAnimations();
-    this.sprites.add(background);
-    this.moveables.add(background);
-    this.sprites.addAll(coins);
-    this.sprites.addAll(rockets);
-    this.moveables.addAll(rockets);
-    this.sprites.add(player);
-    this.moveables.add(player);
-    this.moveables.addAll(coins);
+    this.sprites.    add(background);
+    this.moveables.  add(background);
+    this.sprites.    addAll(coins);
+    this.sprites.    addAll(rockets);
+    this.moveables.  addAll(rockets);
+    this.sprites.    add(player);
+    this.moveables.  add(player);
+    this.moveables.  addAll(coins);
     this.collidables.addAll(coins);
     this.collidables.addAll(rockets);
   }
@@ -158,8 +159,12 @@ public class GameManager {
     startButtons[1] = new Button(new PVector(window.width /2 , 300), new PVector(100, 50),"Leaderboard");
     startButtons[2] = new Button(new PVector(window.width /2 , 400), new PVector(100, 50),"Quit");
 
+    //set up buttons
+    Button[] pauseButtons = new Button[1];
+    pauseButtons[0] = new Button(new PVector(window.width /2 , 400), new PVector(100, 50),"Quit");
     gameUIS    = new GameUI[3];
     gameUIS[0] = new StartGameUI(new PVector(window.width /2 , 200), new PVector(100, 50), startButtons, this);
+    gameUIS[1] = new PauseGameUI(new PVector(window.width /2 , 600), new PVector(100, 50), pauseButtons, this);
 
 
   }
@@ -183,7 +188,11 @@ public class GameManager {
         manageHeart();
         manageBackground();
         updatePlayerScoer();
+        break;
       case 2:
+        System.out.println("Inside case 2");
+        gameUIS[1].draw();
+        break;
         //State when the game is paused;
       default:
         //Game has ended.
@@ -267,9 +276,11 @@ public class GameManager {
         break;
       case 1:
         //State when the game is running
-
+        break;
       case 2:
+        gameUIS[1].checkForClicks();
         //State when the game is paused;
+        break;
       default:
         //Game has ended.
         ;
@@ -278,6 +289,29 @@ public class GameManager {
 
   }
 
+
+
+  public void keyEvents(KeyEvent event){
+    switch(gameState){
+      case 0:
+        gameUIS[0].checkForClicks();
+        break;
+      case 1:
+        if (event.getKey() == 'p' || event.getKey() == 'P') {
+          gameState = 2;
+        }
+        break;
+      case 2:
+        player.keyPressed(event);
+        gameUIS[1].keyEvent(event);
+        break;
+      default:
+        //Game has ended.
+        ;
+
+    }
+
+  }
 
 
   /*Code to Manage Player*/

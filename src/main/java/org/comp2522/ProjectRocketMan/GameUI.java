@@ -1,6 +1,7 @@
 package org.comp2522.ProjectRocketMan;
 
 import processing.core.PVector;
+import processing.event.KeyEvent;
 
 import javax.swing.text.StyleContext;
 
@@ -36,4 +37,6 @@ public abstract class GameUI extends Sprite{
   }
 
   abstract void buttonClicked(String label);
+
+  abstract void keyEvent(KeyEvent keyEvent);
 }
