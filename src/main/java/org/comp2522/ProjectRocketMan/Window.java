@@ -144,6 +144,13 @@ public class Window extends PApplet {
     }
   }
 
+
+  @Override
+  public void mouseClicked() {
+
+    manager.mouseEvents();
+  }
+
   public void keyPressed(KeyEvent event) {
     player.keyPressed(event);
   }

@@ -64,6 +64,13 @@ public class GameManager {
   private PImage[] heartAnimaton;
 
 
+  private GameUI[] gameUIS;
+
+
+
+  private int gameState;
+
+
 
   public GameManager() {
     isRunning = false;
@@ -94,6 +101,7 @@ public class GameManager {
     coinSound         = new SoundFile(window, "music/coin.wav");
     heartSound        = new SoundFile(window, "music/heart.wav");
     rocketSound       = new SoundFile(window, "music/rocket.wav");
+    gameState         = 0;
 
 
     background = new Background(background_images,
@@ -106,6 +114,7 @@ public class GameManager {
         0);
 
     rockets = new ArrayList<Rocket>();
+    setUpGameUIs();
 
     setupCoinAnimations();
     setupHeartAnimations();
@@ -137,12 +146,35 @@ public class GameManager {
     }
   }
 
+
+
+  private void setUpGameUIs(){
+
+    //Setup Start UI
+
+    //set up buttons
+    Button[] startButtons = new Button[3];
+    startButtons[0] = new Button(new PVector(window.width /2 , 200), new PVector(100, 50),"Start");
+    startButtons[1] = new Button(new PVector(window.width /2 , 300), new PVector(100, 50),"Leaderboard");
+    startButtons[2] = new Button(new PVector(window.width /2 , 400), new PVector(100, 50),"Quit");
+
+    gameUIS    = new GameUI[3];
+    gameUIS[0] = new StartGameUI(new PVector(window.width /2 , 200), new PVector(100, 50), startButtons, this);
+
+
+  }
+
+
+
   /*Code to manage Different Things*/
 
   public void manageTheGame(){
-    int gameState = 0;
     switch(gameState){
       case 0:
+        gameUIS[0].draw();
+        break;
+      case 1:
+        //State when the game is running
         draw();
         move();
         checkForCollisions();
@@ -151,10 +183,11 @@ public class GameManager {
         manageHeart();
         manageBackground();
         updatePlayerScoer();
-        break;
-      case 1:
-        //
-      default:;
+      case 2:
+        //State when the game is paused;
+      default:
+        //Game has ended.
+        ;
 
     }
 
@@ -221,6 +254,28 @@ public class GameManager {
 
     }
     collidables.removeAll(toRemove);
+  }
+
+
+
+  /*Code to Manage Clicks*/
+  public void mouseEvents(){
+    switch(gameState){
+      case 0:
+
+        gameUIS[0].checkForClicks();
+        break;
+      case 1:
+        //State when the game is running
+
+      case 2:
+        //State when the game is paused;
+      default:
+        //Game has ended.
+        ;
+
+    }
+
   }
 
 
@@ -414,6 +469,13 @@ public class GameManager {
   }
 
 
+  public int getGameState() {
+    return gameState;
+  }
+
+  public void setGameState(int gameState) {
+    this.gameState = gameState;
+  }
 
   public void gameOver() throws FileNotFoundException {
     isRunning = false;
