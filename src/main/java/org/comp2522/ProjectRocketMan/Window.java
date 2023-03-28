@@ -122,7 +122,7 @@ public class Window extends PApplet {
   public void setup() {
     manager.init(sprites, moveables);
     player = Player.getInstance();
-    background = new SoundFile(this, "music/background.mp3");
+    background = new SoundFile(this, "music/background_babbu.mp3");
   }
 
   public void init() {
