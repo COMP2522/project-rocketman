@@ -148,24 +148,36 @@ public class Window extends PApplet {
     int gameState = manager.getGameState();
     switch (gameState) {
       case 0:
-        gameBackground.stop();
+        if (gameBackground.isPlaying()) {
+          gameBackground.stop();
+        }
         if (!menuBackground.isPlaying()) {
           menuBackground.play();
         }
         break;
       case 1:
-        menuBackground.stop();
+        if (menuBackground.isPlaying()) {
+          menuBackground.stop();
+        }
         if (!gameBackground.isPlaying()) {
           gameBackground.play();
         }
         break;
       case 2:
-        gameBackground.pause();
-        menuBackground.stop();
+        if (gameBackground.isPlaying()) {
+          gameBackground.pause();
+        }
+        if (menuBackground.isPlaying()) {
+          menuBackground.stop();
+        }
         break;
       default:
-        gameBackground.stop();
-        menuBackground.stop();
+        if (gameBackground.isPlaying()) {
+          gameBackground.stop();
+        }
+        if (menuBackground.isPlaying()) {
+          menuBackground.stop();
+        }
     }
   }
 
