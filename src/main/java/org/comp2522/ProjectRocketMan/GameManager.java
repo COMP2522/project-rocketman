@@ -241,6 +241,7 @@ public class GameManager {
     for (Collidable temp : collidables) {
       if (temp.collided(player)){
         if(temp instanceof Rocket){
+          rocketSound.play();
           System.out.println("Player dead if heart zero!!\n");
           sprites.remove((Sprite) temp);
           toRemove.add(temp);
