@@ -3,6 +3,7 @@ package org.comp2522.ProjectRocketMan;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
+import processing.sound.SoundFile;
 import processing.event.KeyEvent;
 
 import java.awt.desktop.SystemEventListener;
@@ -21,6 +22,10 @@ import java.util.List;
  */
 public class Window extends PApplet {
 
+  /**
+   * Background music
+   * */
+  private SoundFile background;
 
   /**
    * Holds the manager class instance.
@@ -117,6 +122,7 @@ public class Window extends PApplet {
   public void setup() {
     manager.init(sprites, moveables);
     player = Player.getInstance();
+    background = new SoundFile(this, "music/background.mp3");
   }
 
   public void init() {
@@ -133,6 +139,9 @@ public class Window extends PApplet {
 
   public void draw() {
     manager.manageTheGame();
+    if (!background.isPlaying()) {
+      background.play();
+    }
   }
 
   public void keyPressed(KeyEvent event) {

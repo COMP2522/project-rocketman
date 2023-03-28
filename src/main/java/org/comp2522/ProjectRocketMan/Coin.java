@@ -14,6 +14,7 @@ public class Coin extends Sprite implements Movable, Destroyable, Collidable {
 
   private PImage[] animations;
 
+
   private int index;
   private float x;
   private float y;
@@ -37,7 +38,6 @@ public class Coin extends Sprite implements Movable, Destroyable, Collidable {
     this.animations = animations;
     this.height = animations[0].width / 50f;
     this.width = animations[0].width / 50f;
-
   }
 
   private void setupCoinAnimations(){
