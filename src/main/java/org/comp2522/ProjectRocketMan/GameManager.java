@@ -10,6 +10,7 @@ import java.util.Random;
 import org.json.simple.JSONObject;
 import processing.core.PImage;
 import processing.core.PVector;
+import processing.sound.SoundFile;
 
 public class GameManager {
   // responsible for managing the game logic and data.
@@ -19,6 +20,13 @@ public class GameManager {
   // keeping track of the game score
   private Window window;
   private Background background;
+
+  private SoundFile coinSound;
+
+  private SoundFile heartSound;
+
+  private SoundFile rocketSound;
+
   private Player player;
   private List<Rocket> rockets;
 
@@ -90,6 +98,9 @@ public class GameManager {
     rocket_man_image  = window.loadImage("images/rocket_man_images/My project2.png");
     background_images = window.loadImage("images/rocket_man_backgrounds/AIgen.png");
     coin              = window.loadImage("images/rocket_man_coins/star coin rotate 1.png");
+    coinSound         = new SoundFile(window, "music/coin.wav");
+    heartSound        = new SoundFile(window, "music/heart.wav");
+    rocketSound       = new SoundFile(window, "music/rocket.wav");
     gameState         = 0;
 
 
@@ -220,16 +231,19 @@ public class GameManager {
     for (Collidable temp : collidables) {
       if (temp.collided(player)){
         if(temp instanceof Rocket){
+          rocketSound.play();
           System.out.println("Player dead if heart zero!!\n");
           sprites.remove((Sprite) temp);
           toRemove.add(temp);
 //          window.init();
         }else {
           if (temp instanceof Coin) {
+            coinSound.play();
             player.setNumberOfCoinsCollected(player.getNumberOfCoinsCollected() + 1);
             sprites.remove((Sprite) temp);
             toRemove.add(temp);
           } else {
+            heartSound.play();
             player.setHearts(player.getHearts() + 1);
             sprites.remove((Sprite) temp);
             toRemove.add(temp);
