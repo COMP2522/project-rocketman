@@ -25,6 +25,8 @@ public class GameManager {
 
   private SoundFile heartSound;
 
+  private SoundFile rocketSound;
+
   private Player player;
   private List<Rocket> rockets;
 
@@ -91,6 +93,7 @@ public class GameManager {
     coin              = window.loadImage("images/rocket_man_coins/star coin rotate 1.png");
     coinSound         = new SoundFile(window, "music/coin.wav");
     heartSound        = new SoundFile(window, "music/heart.wav");
+    rocketSound       = new SoundFile(window, "music/rocket.wav");
 
 
     background = new Background(background_images,
@@ -195,6 +198,7 @@ public class GameManager {
     for (Collidable temp : collidables) {
       if (temp.collided(player)){
         if(temp instanceof Rocket){
+          rocketSound.play();
           System.out.println("Player dead if heart zero!!\n");
           sprites.remove((Sprite) temp);
           toRemove.add(temp);
