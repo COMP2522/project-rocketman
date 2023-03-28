@@ -25,7 +25,12 @@ public class Window extends PApplet {
   /**
    * Background music
    * */
-  private SoundFile background;
+  private SoundFile gameBackground;
+
+  /**
+   * Background music for menu.
+   * */
+  private SoundFile menuBackground;
 
   /**
    * Holds the manager class instance.
@@ -122,7 +127,8 @@ public class Window extends PApplet {
   public void setup() {
     manager.init(sprites, moveables);
     player = Player.getInstance();
-    background = new SoundFile(this, "music/background_babbu.mp3");
+    gameBackground = new SoundFile(this, "music/background_babbu.mp3");
+    menuBackground = new SoundFile(this, "music/background.mp3");
   }
 
   public void init() {
@@ -139,8 +145,27 @@ public class Window extends PApplet {
 
   public void draw() {
     manager.manageTheGame();
-    if (!background.isPlaying()) {
-      background.play();
+    int gameState = manager.getGameState();
+    switch (gameState) {
+      case 0:
+        gameBackground.stop();
+        if (!menuBackground.isPlaying()) {
+          menuBackground.play();
+        }
+        break;
+      case 1:
+        menuBackground.stop();
+        if (!gameBackground.isPlaying()) {
+          gameBackground.play();
+        }
+        break;
+      case 2:
+        gameBackground.pause();
+        menuBackground.stop();
+        break;
+      default:
+        gameBackground.stop();
+        menuBackground.stop();
     }
   }
 
