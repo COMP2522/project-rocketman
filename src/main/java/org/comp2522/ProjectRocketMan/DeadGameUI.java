@@ -11,6 +11,17 @@ public class DeadGameUI extends GameUI{
 
   @Override
   void buttonClicked(String label) {
+    switch (label){
+      case "Retry":
+        manager.resertToStart();
+        manager.setGameState(1);
+        break;
+      case "Quit":
+        window.exit();
+        break;
+      default:
+        ;
+    }
 
   }
 

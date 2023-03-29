@@ -70,7 +70,14 @@ public class GameManager {
   private GameUI[] gameUIS;
 
 
-
+  /**
+   * Stores the game state of the Game.x
+   * State:
+   *    0: Start State
+   *    1: Game running state
+   *    2: Game Pause
+   *    3: Player Dead
+   */
   private int gameState;
 
 
@@ -122,14 +129,17 @@ public class GameManager {
     setupHeartAnimations();
     this.sprites.    add(background);
     this.moveables.  add(background);
-    this.sprites.    addAll(coins);
-    this.sprites.    addAll(rockets);
-    this.moveables.  addAll(rockets);
     this.sprites.    add(player);
     this.moveables.  add(player);
-    this.moveables.  addAll(coins);
-    this.collidables.addAll(coins);
-    this.collidables.addAll(rockets);
+
+ // *** redundant commented out code
+//    this.sprites.    addAll(coins);
+//    this.sprites.    addAll(rockets);
+//    this.moveables.  addAll(rockets);
+
+//    this.moveables.  addAll(coins);
+//    this.collidables.addAll(coins);
+//    this.collidables.addAll(rockets);
   }
 
 
@@ -153,7 +163,7 @@ public class GameManager {
   private void setUpGameUIs(){
 
     //Setup Start UI
-
+    gameUIS    = new GameUI[3];
     //set up buttons
     Button[] startButtons = new Button[3];
     startButtons[0] = new Button(new PVector(window.width /2 , 200), new PVector(100, 50),"Start");
@@ -163,9 +173,17 @@ public class GameManager {
     //set up buttons
     Button[] pauseButtons = new Button[1];
     pauseButtons[0] = new Button(new PVector(window.width /2 , 400), new PVector(100, 50),"Quit");
-    gameUIS    = new GameUI[3];
+
     gameUIS[0] = new StartGameUI(new PVector(window.width /2 , 200), new PVector(100, 50), startButtons, this, menu_background);
     gameUIS[1] = new PauseGameUI(new PVector(window.width /2 , 600), new PVector(100, 50), pauseButtons, this, menu_background);
+
+    Button[] deadButtons = new Button[2];
+    deadButtons[0] = new Button(new PVector(window.width /2 , 300), new PVector(100, 50),"Retry");
+    deadButtons[1] = new Button(new PVector(window.width /2 , 450), new PVector(100, 50),"Quit");
+
+    gameUIS[2] = new DeadGameUI(new PVector(window.width /2 , 600), new PVector(100, 50), deadButtons, this, menu_background);
+
+
 
 
   }
@@ -197,13 +215,36 @@ public class GameManager {
         //State when the game is paused;
       case 3:
         // state when player has died
-        gameUIS[0].draw();
+        gameUIS[2].draw();
       default:
         //Game has ended.
         ;
     }
   }
 
+  /**
+   * Resets the game to the beginning to re-run the game.
+   */
+  public void resertToStart(){
+    sprites.clear();
+    moveables.clear();
+    collidables.clear();
+    rockets.clear();
+    coins.clear();
+    collidables.clear();
+    this.sprites.    add(background);
+    this.moveables.  add(background);
+    this.sprites.    add(player);
+    this.moveables.  add(player);
+    background.setSpeed(0f);
+    player.setScore(0);
+    player.setNumberOfCoinsCollected(0);
+    player.setHearts(0);
+    heart.setPosition(new PVector(window.random(window.width, window.width * 2), window.random(0,window.height)));
+    sprites.    add(heart);
+    collidables.add(heart);
+    moveables.  add(heart);
+  }
 
   private void draw(){
     drawSprites();
@@ -285,11 +326,10 @@ public class GameManager {
         //State when the game is paused;
         break;
       default:
-        //Game has ended.
+        //Player is dead .
+        gameUIS[2].checkForClicks();
         ;
-
     }
-
   }
 
 
@@ -309,12 +349,8 @@ public class GameManager {
         player.keyPressed(event);
         gameUIS[1].keyEvent(event);
         break;
-      default:
-        //Game has ended.
-        ;
-
+      default:;
     }
-
   }
 
 
