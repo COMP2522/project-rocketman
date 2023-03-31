@@ -13,6 +13,11 @@ import processing.core.PImage;
 import processing.core.PVector;
 import processing.sound.SoundFile;
 
+/**
+ * The GameManager class represents a game manager object that manages the game state and elements.
+ * @author Lisa Zhu
+ * @version 1.0  2023-03-30
+ */
 public class GameManager {
   // responsible for managing the game logic and data.
   // updating the game world
@@ -81,17 +86,23 @@ public class GameManager {
   private int gameState;
 
 
-
+  /**
+   * This constructor initializes the game state variables and
+   * creates an empty ArrayList for rockets..
+   */
   public GameManager() {
     isRunning = false;
     isPaused = false;
     currentLevel = 1;
 
-
 //    background = new Background();
     rockets = new ArrayList<Rocket>();
   }
 
+  /**
+   * This method starts the program by initializing a new instance of the Window class
+   * and starting the window. It also sets the isRunning flag to true.
+   */
   public void start() {
     window = Window.getInstance(600,1000);
     window.startWindow(this);
@@ -99,6 +110,11 @@ public class GameManager {
   }
 
 
+  /**
+   * Initializes the game with necessary objects and images.
+   * @param sprites The ArrayList of Sprites to add the game objects to.
+   * @param movables The ArrayList of Movable objects to add the movable game objects to.
+   */
   public void init(ArrayList<Sprite> sprites, ArrayList<Movable> movables) {
     this.coins        = new ArrayList<Coin>();
     this.sprites      = sprites;
@@ -115,12 +131,19 @@ public class GameManager {
     gameState         = 0;
 
 
-  background = new Background(background_images,
-      1,
-      new PVector(0,0),
-      new PVector(1,1));
-      player = Player.getInstance(new PVector(window.width * 0.10f,window.height / 2),
-      new PVector(1,1), rocket_man_image, 0);
+    background = new Background(
+        background_images,
+        1,
+        new PVector(0,0),
+        new PVector(1,1)
+    );
+
+    player = Player.getInstance(
+        new PVector(window.width * 0.10f,window.height / 2),
+        new PVector(1,1),
+        rocket_man_image,
+        0
+    );
 
     rockets = new ArrayList<Rocket>();
     setUpGameUIs();
@@ -143,7 +166,10 @@ public class GameManager {
   }
 
 
-
+  /**
+   * Sets up the coin animations for the RocketMan game.
+   * This method loads a series of images of a rotating star coin and stores them in an array.
+   */
   private void setupCoinAnimations(){
     coinAnimation = new PImage[6];
     for(int i = 1; i <= 6; i++){
@@ -151,6 +177,11 @@ public class GameManager {
     }
   }
 
+  /**
+   * Initializes an array of PImages for heart animations.
+   * Loads images from the "images/Hearts/" directory, with filenames
+   * "heart01.png" to "heart05.png".
+   */
   private void setupHeartAnimations(){
     heartAnimaton = new PImage[5];
     for(int i = 1; i <= 5; i++){
@@ -158,8 +189,11 @@ public class GameManager {
     }
   }
 
-
-
+  /**
+   * Sets up the game user interfaces.
+   * This method initializes three game user interfaces: StartGameUI, PauseGameUI, and DeadGameUI.
+   * It also creates buttons for each user interface and assigns them to their respective UI.
+   */
   private void setUpGameUIs(){
 
     //Setup Start UI
@@ -183,15 +217,13 @@ public class GameManager {
 
     gameUIS[2] = new DeadGameUI(new PVector(window.width /2 , 600), new PVector(100, 50), deadButtons, this, menu_background);
 
-
-
-
   }
 
 
-
-  /*Code to manage Different Things*/
-
+  /**
+   * This method manages the game based on the current game state.
+   * It performs different actions depending on the value of the gameState variable.
+   */
   public void manageTheGame(){
     switch(gameState){
       case 0:
@@ -246,11 +278,17 @@ public class GameManager {
     moveables.  add(heart);
   }
 
+  /**
+   * This method draws sprites and information.
+   */
   private void draw(){
     drawSprites();
     drawInformation();
   }
 
+  /**
+   * Draws the player's current score, number of coins collected, and remaining hearts on the screen.
+   */
   private void drawInformation() {
     window.textSize(20);
     window.textAlign(window.CENTER, window.CENTER);
@@ -265,18 +303,31 @@ public class GameManager {
     window.text("Hearts: " + player.getHearts(), window.width - 350, 20);
   }
 
-
+  /**
+   * Draws all sprites in the list of sprites.
+   */
   private void drawSprites(){
     for (Sprite sprite : sprites) {
       sprite.draw();
     }
   }
+
+  /**
+   * This method moves each object in the list of moveables.
+   */
   private void move(){
     for(Movable move : moveables){
       move.move();
     }
   }
 
+  /**
+   * Checks for collisions between player and collidables, and updates the game state accordingly.
+   * If the player collides with a Rocket, the player loses a heart and
+   * if the player runs out of hearts, the game state is set to 3.
+   * If the player collides with a Coin, the player's number of collected coins is incremented.
+   * If the player collides with a Heart, the player gains a heart.
+   */
   private void checkForCollisions(){
     ArrayList<Collidable> toRemove = new ArrayList<Collidable>();
     for (Collidable temp : collidables) {
@@ -312,8 +363,9 @@ public class GameManager {
   }
 
 
-
-  /*Code to Manage Clicks*/
+  /**
+   * This method handles mouse events based on the current state of the game.
+   */
   public void mouseEvents(){
     switch(gameState){
       case 0:
@@ -333,8 +385,10 @@ public class GameManager {
     }
   }
 
-
-
+  /**
+   * Handles key events for the game.
+   * @param event the KeyEvent object representing the key event that occurred
+   */
   public void keyEvents(KeyEvent event){
     switch(gameState){
       case 0:
@@ -355,13 +409,20 @@ public class GameManager {
   }
 
 
-  /*Code to Manage Player*/
+  /**
+   * Updates the player's score based on the current speed of the background.
+   */
   private void updatePlayerScoer(){
     player.setScore((int) (player.getScore() + background.getSpeed()));
   }
 
 
-  /*Code to Manage Heart*/
+  /**
+   * This method manages the behavior of the Heart sprite in the game.
+   * If the Heart sprite does not exist, it is created and added to the relevant lists.
+   * If the Heart sprite moves out of bounds, it is repositioned and added back to the relevant lists.
+   * The Heart sprite's speed is set to match the game's background speed.
+   */
   private void manageHeart() {
     if(heart == null){
       heart = new Heart(new PVector(1000, 440), new PVector(0,0), heartAnimaton, background.getSpeed());
@@ -376,13 +437,12 @@ public class GameManager {
         collidables.add(heart);
       }
     }
-
     heart.setSpeed(background.getSpeed());
-
-
   }
 
-  /*Code to manage background*/
+  /**
+   * This method manages the speed of the background based on the frame count.
+   */
   private void manageBackground(){
     if(window.frameCount % 200 == 0){
       background.setSpeed(Window.min(10f, background.getSpeed() + 0.2f));
@@ -392,7 +452,12 @@ public class GameManager {
   }
 
 
-  /* Code to Manage Rockets*/
+  /**
+   * This method manages the rockets in the game, by updating their speed and
+   * removing any rockets that have gone out of bounds.
+   * If there are no rockets left on the screen, this method will add a new
+   * set of rockets to the game.
+   */
   private void manageRockets(){
     ArrayList<Rocket> rocketsOutOfBound = new ArrayList<Rocket>();
     int numberofRocketsOffScreen = 0;
@@ -417,7 +482,10 @@ public class GameManager {
 
   }
 
-
+  /**
+   * Adds a specified number of rockets to the game.
+   * @param rocketsToAdd the number of rockets to add to the game
+   */
   private void addRockets(int rocketsToAdd){
     for(int i = 0; i < rocketsToAdd; i++){
       Rocket tobeAdded = new Rocket(new PVector(window.random(window.width, window.width * 2), window.random(0,window.height)),
@@ -428,12 +496,12 @@ public class GameManager {
       moveables.add(tobeAdded);
       collidables.add(tobeAdded);
     }
-
-
   }
 
-  /*Code to Manage Coins*/
-
+  /**
+   * Manages the coins that are currently in play, removing any that are offscreen
+   * and adding new ones if necessary.
+   */
   private void manageCoins(){
     ArrayList<Coin> coinsOutOfBound = new ArrayList<Coin>();
     int numberofCoinsOffScreen = 0;
@@ -454,6 +522,11 @@ public class GameManager {
 
   }
 
+  /**
+   * Adds a random number of coins to the game board in different patterns.
+   * The pattern in which the coins will be placed is chosen randomly from 4 options:
+   * placing coins in a line, in a zigzag, in a rectangle or scattered.
+   */
   private void addCoins() {
     Random random = new Random();
     int numberOfCoinsTobeAdded = (int) window.random(0,10);
@@ -477,9 +550,16 @@ public class GameManager {
 
   }
 
+  /**
+   * Scatters a given number of coins across the game area.
+   * @param numberOfCoinsTobeAdded the number of coins to be scattered.
+   */
   private void makeCoinsScatter(int numberOfCoinsTobeAdded) {
   }
 
+  /**
+   * Generates a rectangular pattern of coins within the game board.
+   */
   private void makeCoinsInARectangle() {
     Random random = new Random();
     int numberOfCoinsTobeAdded = (int) window.random(0,20);
@@ -502,6 +582,10 @@ public class GameManager {
 
   }
 
+  /**
+   * Adds the specified number of coins to the current game board in a zig-zag pattern.
+   * @param numberOfCoinsTobeAdded the number of coins to add to the board
+   */
   private void makeCoinsInZigZag(int numberOfCoinsTobeAdded) {
     Random random = new Random();
     float startPositionOfLine = window.random(window.width + window.width / 10f, 2 * window.width * 2);
@@ -518,6 +602,11 @@ public class GameManager {
 
   }
 
+
+  /**
+   * Adds a specified number of coins in a line on the game board.
+   * @param numberOfCoinsTobeAdded the number of coins to be added in a line
+   */
   private void makeCoinsInALine(int numberOfCoinsTobeAdded){
     float startPositionOfLine = window.random(window.width + window.width / 10f, 2 * window.width * 2);
     float yPositionOfTheLine = window.random(10f, window.height - 50);
@@ -531,6 +620,13 @@ public class GameManager {
   }
 
 
+  /**
+   * Creates a new instance of the Coin class with the specified parameters.
+   * @param xPosition the x position of the coin on the screen
+   * @param yPosition the y position of the coin on the screen
+   * @param speedOfCoins the speed at which the coin moves
+   * @return a new instance of the Coin class with the specified parameters
+   */
   private Coin getCoinInstance(float xPosition, float yPosition, float speedOfCoins){
     Coin temp = new Coin(new PVector(xPosition, yPosition),
         new PVector(0,0), coinAnimation, speedOfCoins);
@@ -543,31 +639,61 @@ public class GameManager {
 
   }
 
-
+  /**
+   * Returns the current state of the game.
+   * @return an integer representing the current state of the game.
+   *    Possible values include
+   *    0: Start State
+   *    1: Game running state
+   *    2: Game Pause
+   *    3: Player Dead
+   */
   public int getGameState() {
     return gameState;
   }
 
+  /**
+   * Sets the current game state to the specified value.
+   * @param gameState the new game state to be set
+   */
   public void setGameState(int gameState) {
     this.gameState = gameState;
   }
 
+  /**
+   * Called when the game is over.
+   * @throws FileNotFoundException if the file to write to cannot be found
+   */
   public void gameOver() throws FileNotFoundException {
     isRunning = false;
     saveGameData("gameState.json");
     //close window
   }
 
+  /**
+   * Pauses the game.
+   * This method pauses the game by setting the game state to "paused".
+   * This method pauses the game by setting the game state to "paused".
+   */
   public void pause() {
     isPaused = true;
     // Display pause menu, etc.
   }
 
+  /**
+   * Resumes the paused game, if any.
+   * This method continues the game from where it was paused.
+   * If the game was not paused, this method has no effect.
+   */
   public void resume() {
     isPaused = false;
   }
 
-
+  /**
+   * Saves the current game data to a file with the specified filename.
+   * @param filename the name of the file to save the game data to
+   * @throws FileNotFoundException if the specified file cannot be found or created
+   */
   public void saveGameData(String filename) throws FileNotFoundException {
     // creating JSONObject
     JSONObject jo = new JSONObject();
@@ -591,6 +717,10 @@ public class GameManager {
     }
   }
 
+  /**
+   * Loads game data from the specified file.
+   * @param filename the name of the file containing the game data to be loaded
+   */
   public void loadGameData(String filename) {
     try {
       FileReader reader = new FileReader(filename);
@@ -608,6 +738,11 @@ public class GameManager {
     }
   }
 
+  /**
+   * The main entry point for the application.
+   * Creates an instance of GameManager and calls its start method.
+   * @param args command line arguments (not used in this implementation)
+   */
   public static void main(String[] args) {
     GameManager manager = new GameManager();
     manager.start();
