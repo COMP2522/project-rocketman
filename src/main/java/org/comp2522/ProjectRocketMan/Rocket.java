@@ -18,6 +18,11 @@ public class Rocket extends Sprite implements Movable, Destroyable, Collidable {
 
   float speed;
 
+  public Rocket(PVector position, PVector direction,float speed){
+    super(position, direction);
+    this.window = Window.getInstance();
+    this.speed = speed;
+  }
   public Rocket(PVector position, PVector direction, PImage image, float speed){
     super(position, direction);
     this.image = image;

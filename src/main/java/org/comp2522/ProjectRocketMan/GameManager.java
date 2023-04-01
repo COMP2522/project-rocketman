@@ -328,7 +328,7 @@ public class GameManager {
    * If the player collides with a Coin, the player's number of collected coins is incremented.
    * If the player collides with a Heart, the player gains a heart.
    */
-  private void checkForCollisions(){
+  public void checkForCollisions(){
     ArrayList<Collidable> toRemove = new ArrayList<Collidable>();
     for (Collidable temp : collidables) {
       if (temp.collided(player)){
@@ -672,7 +672,6 @@ public class GameManager {
 
   /**
    * Pauses the game.
-   * This method pauses the game by setting the game state to "paused".
    * This method pauses the game by setting the game state to "paused".
    */
   public void pause() {
