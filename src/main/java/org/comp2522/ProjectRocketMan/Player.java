@@ -89,7 +89,19 @@ public class Player extends Sprite implements Movable, Destroyable{
     this.width = image.height / 10f;
     this.height = image.height / 10f;
   }
-
+  /**
+   * Private constructor to create the player object.
+   * @param position The position of the player.
+   * @param direction The direction of the player.
+   * @param speed The speed of the player.
+   */
+  private Player(PVector position, PVector direction, float speed) {
+    super(position, direction);
+    this.window = Window.getInstance();
+    this.lives = 1;
+    this.width = 1;
+    this.height = 1;
+  }
   /**
    * Creates a new instance of the player object if it doesn't exist or returns the existing one.
    * @param position The position of the player.
@@ -105,6 +117,12 @@ public class Player extends Sprite implements Movable, Destroyable{
     return player;
   }
 
+  public static Player getInstance(PVector position, PVector direction, float speed) {
+    if (player == null) {
+      player = new Player(position, direction, speed);
+    }
+    return player;
+  }
   /**
    * Returns the gravity applied to the player.
    * @return The gravity applied to the player.

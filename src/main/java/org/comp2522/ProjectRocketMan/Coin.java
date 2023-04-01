@@ -40,6 +40,12 @@ public class Coin extends Sprite implements Movable, Destroyable, Collidable {
     this.width = animations[0].width / 50f;
   }
 
+  public Coin(PVector position, PVector direction,float speed) {
+    super(position, direction);
+    this.x = x;
+    this.y = y;
+    this.speed = speed;
+  }
   private void setupCoinAnimations(){
     animations = new PImage[6];
     for(int i = 1; i <= 6; i++){

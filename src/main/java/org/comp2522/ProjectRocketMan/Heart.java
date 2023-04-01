@@ -35,7 +35,12 @@ public class Heart extends Sprite implements Movable, Destroyable, Collidable {
     this.width = animations[0].width * 10;
 
   }
-
+  public Heart(PVector position, PVector direction, float speed) {
+    super(position, direction);
+    this.x = x;
+    this.y = y;
+    this.speed = speed;
+  }
 
   public void update(float speed) {
     x -= speed;
