@@ -8,6 +8,10 @@ import java.util.ArrayList;
 
 import static processing.core.PApplet.abs;
 
+/**
+ * A class representing a coin in a game.
+ * Coins are sprites that can move, be destroyed, and collide with other objects in the game.
+ */
 public class Coin extends Sprite implements Movable, Destroyable, Collidable {
 
   private PImage image;
@@ -26,7 +30,13 @@ public class Coin extends Sprite implements Movable, Destroyable, Collidable {
   private float width;
 
 
-
+  /**
+   * Constructor for the Coin object in the game.
+   * @param position the position of the coin in the game world.
+   * @param direction the direction in which the coin moves.
+   * @param animations an array of PImages representing the animations of the coin.
+   * @param speed the speed at which the coin moves.
+   */
   public Coin(PVector position, PVector direction,PImage[] animations, float speed) {
     super(position, direction);
     this.image = image;
@@ -46,6 +56,10 @@ public class Coin extends Sprite implements Movable, Destroyable, Collidable {
     this.y = y;
     this.speed = speed;
   }
+
+  /**
+   * Sets up animations for the coin object.
+   */
   private void setupCoinAnimations(){
     animations = new PImage[6];
     for(int i = 1; i <= 6; i++){
@@ -56,36 +70,59 @@ public class Coin extends Sprite implements Movable, Destroyable, Collidable {
     x -= speed;
   }
 
+  /**
+   * Set the position of the object.
+   */
   @Override
   public void setPosition(PVector position) {
 
   }
 
+  /**
+   * Returns the position of the object.
+   * @return the position of the object
+   */
   public PVector getPosition() {
     return position;
   }
 
+  /**
+   * Moves the object by updating its position along the x-axis.
+   */
   @Override
   public void move() {
     position.add(-1 * speed,0);
   }
 
+  /**
+   * Returns the speed of the object.
+   * @return the speed of the object
+   */
   @Override
   public float getSpeed() {
     return 0;
   }
 
+  /**
+   * Set the speed of the object.
+   */
   @Override
   public void setSpeed(float speed) {
     this.speed = speed;
 
   }
 
+  /**
+   * Set the direction of the object.
+   */
   @Override
   public void setDirection(PVector direction) {
 
   }
 
+  /**
+   * Draws the animated object on the screen with its current position and animation frame.
+   */
   public void draw() {
 
     window.image(animations[index % animations.length], position.x, position.y, animations[0].width / 50f, animations[0].height / 50f);
@@ -102,6 +139,11 @@ public class Coin extends Sprite implements Movable, Destroyable, Collidable {
 
   }
 
+  /**
+   * Determines whether the player collides with the current object.
+   * @param player The player object to check for collision with.
+   * @return True if the player collides with the object, false otherwise.
+   */
   @Override
   public boolean collided(Player player) {
     float yDistance = this.position.y - player.position.y;
@@ -119,15 +161,27 @@ public class Coin extends Sprite implements Movable, Destroyable, Collidable {
 
   }
 
+  /**
+   * Returns the height of the object.
+   * @return the height of the object
+   */
   public float getHeight() {
     return height;
   }
 
+  /**
+   * Returns the width of the object.
+   * @return the width of the object
+   */
   public float getWidth() {
     return width;
   }
 
 
+  /**
+   * Returns the coin is destroyed or not.
+   * @return true is the coin is destroyed.
+   */
   @Override
   public Boolean isDestroyed() {
     return null;
