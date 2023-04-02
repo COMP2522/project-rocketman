@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import processing.event.KeyEvent;
-
 import org.json.simple.JSONObject;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -258,11 +257,11 @@ public class GameManager {
    * Resets the game to the beginning to re-run the game.
    */
   public void resertToStart(){
-    sprites.clear();
-    moveables.clear();
+    sprites.    clear();
+    moveables.  clear();
     collidables.clear();
-    rockets.clear();
-    coins.clear();
+    rockets.    clear();
+    coins.      clear();
     collidables.clear();
     this.sprites.    add(background);
     this.moveables.  add(background);
@@ -272,7 +271,7 @@ public class GameManager {
     player.setScore(0);
     player.setNumberOfCoinsCollected(0);
     player.setHearts(0);
-    heart.setPosition(new PVector(window.random(window.width, window.width * 2), window.random(0,window.height)));
+    heart. setPosition(new PVector(window.random(window.width, window.width * 2), window.random(0,window.height)));
     sprites.    add(heart);
     collidables.add(heart);
     moveables.  add(heart);

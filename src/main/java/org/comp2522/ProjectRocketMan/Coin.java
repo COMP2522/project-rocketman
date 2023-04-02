@@ -136,7 +136,6 @@ public class Coin extends Sprite implements Movable, Destroyable, Collidable {
     if(window.frameCount % 6 == 0){
       this.index += this.speed;
     }
-
   }
 
   /**
