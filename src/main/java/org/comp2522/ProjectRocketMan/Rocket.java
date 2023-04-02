@@ -126,7 +126,7 @@ public class Rocket extends Sprite implements Movable, Collidable {
    * @param rockets the list of rockets to manage
    */
   public static void manageItself(ArrayList<Rocket> rockets){
-    // This method is not implemented for the Rocket class.
+    //TODO: This method is not implemented for the Rocket class.
   }
 
   /**
