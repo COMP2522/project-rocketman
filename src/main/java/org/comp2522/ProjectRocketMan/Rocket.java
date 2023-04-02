@@ -10,12 +10,19 @@ import static processing.core.PApplet.*;
  */
 public class Rocket extends Sprite implements Movable, Collidable {
 
-  String shoot;
-
+  /**
+   * Stores the rocket image.
+   */
   PImage image;
 
+  /**
+   * Stores the instance of the Window.
+   */
   Window window;
 
+  /**
+   * the speed of the rocket.
+   */
   float speed;
 
   /**
