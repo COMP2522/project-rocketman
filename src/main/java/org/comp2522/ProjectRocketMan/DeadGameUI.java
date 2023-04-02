@@ -16,8 +16,9 @@ public class DeadGameUI extends GameUI{
         manager.resertToStart();
         manager.setGameState(1);
         break;
-      case "Quit":
-        window.exit();
+      case "Main Menu":
+        manager.setGameState(0);
+//        window.exit();
         break;
       default:
         ;

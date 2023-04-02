@@ -212,7 +212,7 @@ public class GameManager {
 
     Button[] deadButtons = new Button[2];
     deadButtons[0] = new Button(new PVector(window.width /2 , 300), new PVector(100, 50),"Retry");
-    deadButtons[1] = new Button(new PVector(window.width /2 , 450), new PVector(100, 50),"Quit");
+    deadButtons[1] = new Button(new PVector(window.width /2 , 450), new PVector(100, 50),"Main Menu");
 
     gameUIS[2] = new DeadGameUI(new PVector(window.width /2 , 600), new PVector(100, 50), deadButtons, this, menu_background);
 
