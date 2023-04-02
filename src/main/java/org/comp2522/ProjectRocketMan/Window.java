@@ -11,13 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Lab-02 starter code.
- * Runs the applet for the Lab-02 bouncing
- * balls starter code.
- * Based on code from Keith Peters demonstrating
- * multiple-object collision.
- *
- * @author paul_bucci
+ * Runs the applet.
+ * @author JeevanJot Kaur
  *
  */
 public class Window extends PApplet {
