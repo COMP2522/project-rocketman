@@ -142,7 +142,7 @@ public class Window extends PApplet {
     manager.manageTheGame();
     int gameState = manager.getGameState();
     switch (gameState) {
-      case 0:
+      case 0, 3, 4:
         if (gameBackground.isPlaying()) {
           gameBackground.stop();
         }
@@ -162,8 +162,8 @@ public class Window extends PApplet {
         if (gameBackground.isPlaying()) {
           gameBackground.pause();
         }
-        if (menuBackground.isPlaying()) {
-          menuBackground.stop();
+        if (!menuBackground.isPlaying()) {
+          menuBackground.play();
         }
         break;
       default:

@@ -6,6 +6,7 @@ import com.mongodb.ServerApi;
 import com.mongodb.ServerApiVersion;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.UpdateOptions;
@@ -15,7 +16,10 @@ import org.bson.BsonObjectId;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import java.util.ArrayList;
 import java.util.Objects;
+
+import static com.mongodb.client.model.Sorts.descending;
 
 public class Database {
   private final static String mongoPassword = "aditya123";
@@ -50,6 +54,16 @@ public class Database {
         Updates.set("coins", coins),
         Updates.set("score", score));
     new Thread(() -> mongoDB.getCollection("scores").findOneAndUpdate(Filters.eq("_id", id), updates)).start();
+  }
+
+  public ArrayList<Document> getLeaderBoard() {
+    ArrayList<Document> scores = new ArrayList<Document>();
+    try (MongoCursor<Document> cursor = mongoDB.getCollection("scores").find().sort(descending("score")).limit(5).iterator()) {
+      while (cursor.hasNext()) {
+        scores.add(cursor.next());
+      }
+    }
+    return scores;
   }
 
   public static Database getInstance() {
