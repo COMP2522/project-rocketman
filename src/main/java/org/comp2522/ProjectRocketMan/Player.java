@@ -95,7 +95,7 @@ public class Player extends Sprite implements Movable, Destroyable{
    * @param direction The direction of the player.
    * @param speed The speed of the player.
    */
-  private Player(PVector position, PVector direction, float speed) {
+  Player(PVector position, PVector direction, float speed) {
     super(position, direction);
     this.window = Window.getInstance();
     this.lives = 1;
