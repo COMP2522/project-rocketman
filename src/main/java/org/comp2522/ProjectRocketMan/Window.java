@@ -20,12 +20,12 @@ public class Window extends PApplet {
   /**
    * Background music
    * */
-  private SoundFile gameBackground;
+  SoundFile gameBackground;
 
   /**
    * Background music for menu.
    * */
-  private SoundFile menuBackground;
+  SoundFile menuBackground;
 
   /**
    * Holds the manager class instance.
@@ -85,7 +85,7 @@ public class Window extends PApplet {
 //  Wall wall;
 
 
-  private Window(int height, int width){
+  Window(int height, int width){
     this.heightOfWindow = height;
     this.widthOfWindow = width;
     sprites = new ArrayList<Sprite>();
