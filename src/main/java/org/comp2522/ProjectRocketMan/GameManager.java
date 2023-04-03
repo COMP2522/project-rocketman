@@ -444,7 +444,7 @@ public class GameManager {
       collidables.add(heart);
       moveables.add(heart);
     }
-    if(heart.getPosition().x < 50){
+    if(heart.getPosition().x < -1000){
       heart.setPosition(new PVector(window.random(window.width, window.width * 2), window.random(0,window.height)));
       if(!sprites.contains(heart)){
         sprites.add(heart);
