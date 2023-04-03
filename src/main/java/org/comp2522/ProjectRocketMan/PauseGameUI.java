@@ -13,6 +13,7 @@ public class PauseGameUI extends GameUI{
 
   @Override
   public void draw(){
+    window.image(background, 0,0);
     drawMessage();
     for(Button button : buttons){
 
@@ -23,7 +24,6 @@ public class PauseGameUI extends GameUI{
   }
 
   private void drawMessage(){
-    window.background(255);
 
     // Set the font size and color
     window.textSize(24);
