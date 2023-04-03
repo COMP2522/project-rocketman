@@ -64,6 +64,8 @@ public class GameManager {
 
   private PImage menu_background;
 
+  private PImage pause_background;
+
   private PImage coin;
 
   private PImage[] coinAnimation;
@@ -125,6 +127,7 @@ public class GameManager {
     rocket_man_image  = window.loadImage("images/rocket_man_images/My project2.png");
     background_images = window.loadImage("images/rocket_man_backgrounds/AIgen.png");
     menu_background   = window.loadImage("images/rocket_man_backgrounds/Start.png");
+    pause_background   = window.loadImage("images/rocket_man_backgrounds/Start.png");
     coin              = window.loadImage("images/rocket_man_coins/star coin rotate 1.png");
     coinSound         = new SoundFile(window, "music/coin.wav");
     heartSound        = new SoundFile(window, "music/heart.wav");
