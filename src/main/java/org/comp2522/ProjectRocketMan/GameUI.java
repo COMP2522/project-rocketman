@@ -4,8 +4,6 @@ import processing.core.PImage;
 import processing.core.PVector;
 import processing.event.KeyEvent;
 
-import javax.swing.text.StyleContext;
-
 public abstract class GameUI extends Sprite{
 
   protected Button[] buttons;

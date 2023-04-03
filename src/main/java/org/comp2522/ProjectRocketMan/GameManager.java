@@ -86,6 +86,8 @@ public class GameManager {
 
   private GameDBManager dbManager;
 
+  LeaderboardUI leaderboard;
+
 
   /**
    * This constructor initializes the game state variables and
@@ -198,7 +200,7 @@ public class GameManager {
   private void setUpGameUIs(){
 
     //Setup Start UI
-    gameUIS    = new GameUI[3];
+    gameUIS    = new GameUI[4];
     //set up buttons
     Button[] startButtons = new Button[3];
     startButtons[0] = new Button(new PVector(window.width /2 , 200), new PVector(100, 50),"Start");
@@ -218,6 +220,10 @@ public class GameManager {
 
     gameUIS[2] = new DeadGameUI(new PVector(window.width /2 , 600), new PVector(100, 50), deadButtons, this, menu_background);
 
+    Button[] leaderboardButtons = new Button[1];
+    leaderboardButtons[0] = new Button(new PVector(window.width / 2, 400), new PVector(100, 50), "Main Menu");
+    leaderboard = new LeaderboardUI(new PVector(window.width / 2, 600), new PVector(100, 50), leaderboardButtons, this, menu_background);
+    gameUIS[3] = leaderboard;
   }
 
 
@@ -249,6 +255,9 @@ public class GameManager {
       case 3:
         // state when player has died
         gameUIS[2].draw();
+        break;
+      case 4:
+        gameUIS[3].draw();
       default:
         //Game has ended.
         ;
@@ -378,6 +387,8 @@ public class GameManager {
         gameUIS[1].checkForClicks();
         //State when the game is paused;
         break;
+      case 4:
+        gameUIS[3].checkForClicks();
       default:
         //Player is dead .
         gameUIS[2].checkForClicks();
@@ -661,6 +672,9 @@ public class GameManager {
     this.gameState = gameState;
     if (!fromPause) {
       dbManager = new GameDBManager();
+    }
+    if (gameState == 4) {
+      leaderboard.updateLeaderboard();
     }
 //    System.out.println(System.getenv("MONGODB_URL"));
   }

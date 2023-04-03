@@ -17,6 +17,9 @@ public class StartGameUI extends GameUI{
       case "Start":
         manager.setGameState(1);
         break;
+      case "Leaderboard":
+        manager.setGameState(4);
+        break;
       case "Quit":
         window.exit();
         break;

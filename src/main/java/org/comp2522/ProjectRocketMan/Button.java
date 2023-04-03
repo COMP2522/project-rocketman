@@ -45,7 +45,6 @@ public class Button {
    * Draws the button on the screen.
    */
   public void draw(){
-    System.out.println("inside button Draw\n");
     window.stroke(255);
     window.fill(0);
     window.rect(position.x, position.y, dimensions.x, dimensions.y);
