@@ -14,8 +14,8 @@ public class Background extends Sprite implements Movable {
   private float x;
   private float y;
   private float speed;
-  private ArrayList<Heart> coins;
-  private ArrayList<Zapper> zappers;
+  ArrayList<Heart> coins;
+  ArrayList<Zapper> zappers;
   private Window window;
 
   private float scrollSpeed = 1.5f;
@@ -32,6 +32,15 @@ public class Background extends Sprite implements Movable {
     super(position,direction);
     this.window = Window.getInstance();
     this.image = image;
+    this.speed = speed;
+    this.x = 0;
+    this.y = 0;
+    this.coins = new ArrayList<>();
+    this.zappers = new ArrayList<>();
+  }
+  public Background(float speed, PVector position, PVector direction) {
+    super(position,direction);
+    this.window = Window.getInstance();
     this.speed = speed;
     this.x = 0;
     this.y = 0;
