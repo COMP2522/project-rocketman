@@ -81,7 +81,7 @@ public class Player extends Sprite implements Movable, Destroyable{
    * @param image The image of the player.
    * @param speed The speed of the player.
    */
-  private Player(PVector position, PVector direction, PImage image, float speed) {
+  Player(PVector position, PVector direction, PImage image, float speed) {
     super(position, direction);
     this.image = image;
     this.window = Window.getInstance();
@@ -199,7 +199,7 @@ public class Player extends Sprite implements Movable, Destroyable{
 
    Moves the player based on a key event.
    */
-  private void moveOnKeyEvent(){
+  void moveOnKeyEvent(){
     PVector temp = this.getPosition();
     temp.add(0, this.getSpeed());
     this.setPosition(temp);
