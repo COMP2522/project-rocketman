@@ -27,10 +27,10 @@ public class PauseGameUI extends GameUI{
 
     // Set the font size and color
     window.textSize(24);
-    window.fill(0);
+    window.fill(255, 0, 0);
 
     // Draw the message
-    window.text("Press P to unpause game", window.width / 2 - 150, window.height / 2);
+    window.text("Press P to unpause game", window.width / 2 - 150, (window.height / 2) + 50);
   }
 
   public void keyEvent(KeyEvent event){
