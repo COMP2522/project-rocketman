@@ -84,6 +84,8 @@ public class GameManager {
    */
   private int gameState;
 
+  private GameDBManager dbManager;
+
 
   /**
    * This constructor initializes the game state variables and
@@ -333,15 +335,14 @@ public class GameManager {
       if (temp.collided(player)){
         if(temp instanceof Rocket){
           rocketSound.play();
-          System.out.println("Player dead if heart zero!!\n");
+          dbManager.updateGameScore(player.getHearts(), player.getNumberOfCoinsCollected(), player.getScore());
           sprites.remove((Sprite) temp);
           toRemove.add(temp);
           player.setHearts(player.getHearts() - 1);
           if(player.getHearts() < 0){
             gameState = 3;
           }
-//  window.init();
-      }else {
+        } else {
           if (temp instanceof Coin) {
             coinSound.play();
             player.setNumberOfCoinsCollected(player.getNumberOfCoinsCollected() + 1);
@@ -656,7 +657,12 @@ public class GameManager {
    * @param gameState the new game state to be set
    */
   public void setGameState(int gameState) {
+    boolean fromPause = this.gameState == 2;
     this.gameState = gameState;
+    if (!fromPause) {
+      dbManager = new GameDBManager();
+    }
+//    System.out.println(System.getenv("MONGODB_URL"));
   }
 
   /**
