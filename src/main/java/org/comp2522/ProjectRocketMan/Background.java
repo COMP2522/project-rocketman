@@ -4,6 +4,10 @@ import processing.core.PVector;
 
 import java.util.ArrayList;
 
+/**
+ * The Background class represents a scrolling background in a game.
+ * It is used to display images that move behind the game objects.
+ */
 public class Background extends Sprite implements Movable {
   private PImage image;
 
@@ -16,6 +20,14 @@ public class Background extends Sprite implements Movable {
 
   private float scrollSpeed = 1.5f;
 
+  /**
+   * Constructor of Background class.
+   @param image the image used for the background
+   @param speed the speed at which the background moves
+   @param position the starting position of the background
+   @param direction the direction in which the background moves
+   */
+
   public Background(PImage image, float speed, PVector position, PVector direction) {
     super(position,direction);
     this.window = Window.getInstance();
@@ -27,30 +39,54 @@ public class Background extends Sprite implements Movable {
     this.zappers = new ArrayList<>();
   }
 
+  /**
+   * Sets the position of this object to the specified PVector position.
+   * @param position the PVector position to set
+   */
   @Override
   public void setPosition(PVector position) {
     this.position = position;
   }
 
+  /**
+   * Returns the position of an object as a PVector.
+   * @return the position of the object as a PVector.
+   */
   @Override
   public PVector getPosition() {
     return position;
   }
 
+  /**
+   * Overrides the move method from the parent class to move the object in a specific direction.
+   * Moves the object horizontally to the left by the amount of the speed value.
+   */
   @Override
   public void move() {
     position.add(-1 * speed,0);
   }
 
+  /**
+   * Returns the speed of an object as a float.
+   * @return the speed of the object as a float.
+   */
   @Override
   public float getSpeed() {
     return speed;
   }
 
+  /**
+   * Sets the speed of this object to the specified number.
+   * @param speed the speed to set
+   */
   public void setSpeed(float speed) {
     this.speed = speed;
   }
 
+  /**
+   * Sets the direction of this object to the specified PVector.
+   * @param direction the direction to set
+   */
   @Override
   public void setDirection(PVector direction) {
     this.direction = direction;
@@ -64,6 +100,9 @@ public class Background extends Sprite implements Movable {
     // TODO: Implement logic to generate `numZappers` zappers in random positions on the screen
   }
 
+  /**
+   * Updates the game state by moving the background and updating the positions of the coins and zappers.
+   */
   public void update() {
     // Move the background
     x -= speed;
@@ -88,6 +127,10 @@ public class Background extends Sprite implements Movable {
 //    return positions;
 //  }
 
+  /**
+   * Returns a list of positions of all the zappers.
+   * @return an ArrayList of type Float containing the positions of all the zappers
+   */
   public ArrayList<Float> getZapperPositions() {
     ArrayList<Float> positions = new ArrayList<>();
     for (Zapper zapper : zappers) {
@@ -96,6 +139,11 @@ public class Background extends Sprite implements Movable {
     return positions;
   }
 
+  /**
+   * Draws an image on a window with a scrolling effect.
+   *
+   * The image is continuously drawn and scrolled across the window.
+   */
   public void draw() {
 
     position.y = speed;
