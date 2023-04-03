@@ -75,7 +75,7 @@ public class Coin extends Sprite implements Movable, Destroyable, Collidable {
    */
   @Override
   public void setPosition(PVector position) {
-
+      this.position = position;
   }
 
   /**
@@ -100,9 +100,11 @@ public class Coin extends Sprite implements Movable, Destroyable, Collidable {
    */
   @Override
   public float getSpeed() {
-    return 0;
+    return speed;
   }
-
+  public PVector getDirection() {
+    return direction;
+  }
   /**
    * Set the speed of the object.
    */
@@ -117,7 +119,7 @@ public class Coin extends Sprite implements Movable, Destroyable, Collidable {
    */
   @Override
   public void setDirection(PVector direction) {
-
+    this.direction = direction;
   }
 
   /**
