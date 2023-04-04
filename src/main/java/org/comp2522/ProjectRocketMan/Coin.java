@@ -1,27 +1,18 @@
 package org.comp2522.ProjectRocketMan;
-import com.mongodb.client.model.mql.MqlNumber;
-import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
-
-import java.util.ArrayList;
-
 import static processing.core.PApplet.abs;
 
 /**
  * A class representing a coin in a game.
  * Coins are sprites that can move, be destroyed, and collide with other objects in the game.
  */
-public class Coin extends Sprite implements Movable, Destroyable, Collidable {
-
-  private PImage image;
+public class Coin extends Sprite implements Collideable {
 
   private PImage[] animations;
 
 
   private int index;
-  private float x;
-  private float y;
   private float speed;
   private Window window;
 
@@ -39,9 +30,6 @@ public class Coin extends Sprite implements Movable, Destroyable, Collidable {
    */
   public Coin(PVector position, PVector direction,PImage[] animations, float speed) {
     super(position, direction);
-    this.image = image;
-    this.x = x;
-    this.y = y;
     this.speed = speed;
     this.window = Window.getInstance();
     this.index = (int) window.random(0,6);
@@ -52,22 +40,7 @@ public class Coin extends Sprite implements Movable, Destroyable, Collidable {
 
   public Coin(PVector position, PVector direction,float speed) {
     super(position, direction);
-    this.x = x;
-    this.y = y;
     this.speed = speed;
-  }
-
-  /**
-   * Sets up animations for the coin object.
-   */
-  private void setupCoinAnimations(){
-    animations = new PImage[6];
-    for(int i = 1; i <= 6; i++){
-      animations[i - 1] = window.loadImage("images/rocket_man_coins/star coin rotate " + i + ".png");
-    }
-  }
-  public void update(float speed) {
-    x -= speed;
   }
 
   /**
@@ -115,14 +88,6 @@ public class Coin extends Sprite implements Movable, Destroyable, Collidable {
   }
 
   /**
-   * Set the direction of the object.
-   */
-  @Override
-  public void setDirection(PVector direction) {
-    this.direction = direction;
-  }
-
-  /**
    * Draws the animated object on the screen with its current position and animation frame.
    */
   public void draw() {
@@ -152,14 +117,6 @@ public class Coin extends Sprite implements Movable, Destroyable, Collidable {
     float xDistanceOffset = player.getWidth()* .3f;
     float yDistanceOffset = player.getHeight()* .3f;
     return abs(yDistance) < player.getHeight() - xDistanceOffset && abs(xDistance) < player.getWidth() - yDistanceOffset;
-//    float xCoin = this.position.x;
-//    float yCoin = this.position.y;
-//    float xPositionOfPlayer = player.getPosition().x + player.getImage().width / 10f;
-//    float yPositionOfPlayer = player.getPosition().y + player.getImage().width / 10f;
-//    return xCoin < xPositionOfPlayer && xCoin > player.getPosition().x
-//            && yCoin < yPositionOfPlayer && yCoin >
-//            player.getPosition().y;
-
   }
 
   /**
@@ -177,26 +134,4 @@ public class Coin extends Sprite implements Movable, Destroyable, Collidable {
   public float getWidth() {
     return width;
   }
-
-
-  /**
-   * Returns the coin is destroyed or not.
-   * @return true is the coin is destroyed.
-   */
-  @Override
-  public Boolean isDestroyed() {
-    return null;
-  }
-
-  @Override
-  public void destroy() {
-
-  }
-
-  @Override
-  public void onDestroy() {
-
-  }
-
-
 }

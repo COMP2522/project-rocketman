@@ -8,7 +8,7 @@ import static processing.core.PConstants.UP;
 /**
  * A class representing the player.
  */
-public class Player extends Sprite implements Movable, Destroyable{
+public class Player extends Sprite {
   /**
    * Stores the image of the player.
    */
@@ -17,7 +17,7 @@ public class Player extends Sprite implements Movable, Destroyable{
   /**
    * Stores the instance of the Window.
    */
-  private Window window;
+  private final Window window;
 
   /**
    * The speed of the player. The Player starts with the 0 speed.
@@ -52,22 +52,17 @@ public class Player extends Sprite implements Movable, Destroyable{
   /**
    * The width of the player.
    */
-  private float width;
+  private final float width;
 
   /**
    * The height of the player.
    */
-  private float height;
+  private final float height;
 
   /**
    * The number of coins the player has collected.
    */
   private int numberOfCoinsCollected;
-
-  /**
-   * The number of lives the player has.
-   */
-  private int lives;
 
   /**
    * The number of hearts the player has.
@@ -85,7 +80,6 @@ public class Player extends Sprite implements Movable, Destroyable{
     super(position, direction);
     this.image = image;
     this.window = Window.getInstance();
-    this.lives = 1;
     this.width = image.height / 10f;
     this.height = image.height / 10f;
   }
@@ -98,7 +92,6 @@ public class Player extends Sprite implements Movable, Destroyable{
   Player(PVector position, PVector direction, float speed) {
     super(position, direction);
     this.window = Window.getInstance();
-    this.lives = 1;
     this.width = 1;
     this.height = 1;
   }
@@ -195,34 +188,24 @@ public class Player extends Sprite implements Movable, Destroyable{
   public static Player getInstance(){
     return player;
   }
-  /**
 
-   Moves the player based on a key event.
-   */
-  void moveOnKeyEvent(){
-    PVector temp = this.getPosition();
-    temp.add(0, this.getSpeed());
-    this.setPosition(temp);
-    setSpeed(getSpeed() - getGravity());
-  }
   /**
-
    Returns the player image.
    @return the player image
    */
   public PImage getImage() {
     return image;
   }
-  /**
 
+  /**
    Sets the player image.
    @param image the player image to set
    */
   public void setImage(PImage image) {
     this.image = image;
   }
-  /**
 
+  /**
    Handles the key pressed event for the player.
    @param event the key event
    */
@@ -241,49 +224,8 @@ public class Player extends Sprite implements Movable, Destroyable{
       }
     }
   }
-  /**
-
-   Returns the number of lives the player has.
-   @return the number of lives
-   */
-  public int getLives() {
-    return lives;
-  }
-  /**
-
-   Sets the number of lives the player has.
-   @param lives the number of lives to set
-   */
-  public void setLives(int lives) {
-    this.lives = lives;
-  }
-  /**
-
-   Determines if the player is destroyed.
-   @return always returns null
-   */
-  @Override
-  public Boolean isDestroyed() {
-    return null;
-  }
-  /**
-
-   Destroys the player.
-   */
-  @Override
-  public void destroy() {
-  }
 
   /**
-
-   Handles the player being destroyed.
-   */
-  @Override
-  public void onDestroy() {
-  }
-
-  /**
-
    Sets the position of the player.
    @param position the position to set
    */
@@ -291,16 +233,16 @@ public class Player extends Sprite implements Movable, Destroyable{
   public void setPosition(PVector position) {
     this.position = position;
   }
-  /**
 
+  /**
    Returns the number of hearts the player has.
    @return the number of hearts
    */
   public int getHearts() {
     return hearts;
   }
-  /**
 
+  /**
    Sets the number of hearts the player has.
    @param hearts the number of hearts to set
    */
@@ -367,7 +309,6 @@ public class Player extends Sprite implements Movable, Destroyable{
   @Override
   void draw() {
     float angle = PVector.angleBetween(position,new PVector(0, 1));
-//  window.rotate(radians(angle));
     window.image(this.image,position.x, position.y, image.height / 10f, image.width / 10f);
     window.stroke(0);        // set the stroke color to black
     window.fill(255, 0, 0);  // set the fill color to red
@@ -384,30 +325,12 @@ public class Player extends Sprite implements Movable, Destroyable{
   }
 
   /**
-   * Sets the width of the object.
-   *
-   * @param width the new width of the object
-   */
-  public void setWidth(float width) {
-    this.width = width;
-  }
-
-  /**
    * Returns the height of the object.
    *
    * @return the height of the object
    */
   public float getHeight() {
     return height;
-  }
-
-  /**
-   * Sets the height of the object.
-   *
-   * @param height the new height of the object
-   */
-  public void setHeight(float height) {
-    this.height = height;
   }
 
   /**
@@ -428,16 +351,5 @@ public class Player extends Sprite implements Movable, Destroyable{
   @Override
   public void setSpeed(float speed) {
     this.speed = speed;
-  }
-
-  /**
-   * Sets the direction of the object.
-   * This method is not currently implemented.
-   *
-   * @param direction the new direction of the object
-   */
-  @Override
-  public void setDirection(PVector direction) {
-
   }
 }

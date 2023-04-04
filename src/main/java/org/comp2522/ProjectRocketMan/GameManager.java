@@ -1,28 +1,24 @@
 package org.comp2522.ProjectRocketMan;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import processing.event.KeyEvent;
-import org.json.simple.JSONObject;
 import processing.core.PImage;
 import processing.core.PVector;
 import processing.sound.SoundFile;
 
 /**
  * The GameManager class represents a game manager object that manages the game state and elements.
+ * It is responsible for managing the game logic and data,
+ * updating the game world,
+ * managing the player input,
+ * handling collision detection, and
+ * keeping track of the game score.
+ *
  * @author Lisa Zhu
  * @version 1.0  2023-03-30
  */
 public class GameManager {
-  // responsible for managing the game logic and data.
-  // updating the game world
-  // managing player input
-  // handling collision detection
-  // keeping track of the game score
   private Window window;
   private Background background;
 
@@ -37,40 +33,19 @@ public class GameManager {
 
   private List<Sprite> sprites;
 
-  private List<Collidable> collidables;
-
-  private List<Movable> moveables;
+  private List<Collideable> collideables;
 
   private  List<Coin> coins;
 
   private Heart heart;
 
-  private boolean isRunning;
-  private boolean isPaused;
-  private int currentLevel;
-  private int leveUpCoins;
-  private int currentSpeed;
-  private int rocketNums;
-  private int coinsPerWindow;
-  private int zapperNums;
-
-
-
-  /* References to different images*/
   private PImage rocket_image;
-  private PImage rocket_man_image;
-
-  private PImage background_images;
 
   private PImage menu_background;
 
-  private PImage pause_background;
-
-  private PImage coin;
-
   private PImage[] coinAnimation;
 
-  private PImage[] heartAnimaton;
+  private PImage[] heartAnimation;
 
 
   private GameUI[] gameUIS;
@@ -96,11 +71,6 @@ public class GameManager {
    * creates an empty ArrayList for rockets..
    */
   public GameManager() {
-    isRunning = false;
-    isPaused = false;
-    currentLevel = 1;
-
-//    background = new Background();
     rockets = new ArrayList<Rocket>();
   }
 
@@ -111,26 +81,21 @@ public class GameManager {
   public void start() {
     window = Window.getInstance(600,1000);
     window.startWindow(this);
-    isRunning = true;
   }
 
 
   /**
    * Initializes the game with necessary objects and images.
    * @param sprites The ArrayList of Sprites to add the game objects to.
-   * @param movables The ArrayList of Movable objects to add the movable game objects to.
    */
-  public void init(ArrayList<Sprite> sprites, ArrayList<Movable> movables) {
+  public void init(ArrayList<Sprite> sprites) {
     this.coins        = new ArrayList<Coin>();
     this.sprites      = sprites;
-    this.moveables    = movables;
-    this.collidables  = new ArrayList<Collidable>();
+    this.collideables = new ArrayList<Collideable>();
     rocket_image      = window.loadImage("images/rockect_images/rocket_3.png");
-    rocket_man_image  = window.loadImage("images/rocket_man_images/My project2.png");
-    background_images = window.loadImage("images/rocket_man_backgrounds/AIgen.png");
+    PImage rocket_man_image = window.loadImage("images/rocket_man_images/My project2.png");
+    PImage background_images = window.loadImage("images/rocket_man_backgrounds/AIgen.png");
     menu_background   = window.loadImage("images/rocket_man_backgrounds/Start.png");
-    pause_background   = window.loadImage("images/rocket_man_backgrounds/Start.png");
-    coin              = window.loadImage("images/rocket_man_coins/star coin rotate 1.png");
     coinSound         = new SoundFile(window, "music/coin.wav");
     heartSound        = new SoundFile(window, "music/heart.wav");
     rocketSound       = new SoundFile(window, "music/rocket.wav");
@@ -157,18 +122,7 @@ public class GameManager {
     setupCoinAnimations();
     setupHeartAnimations();
     this.sprites.    add(background);
-    this.moveables.  add(background);
     this.sprites.    add(player);
-    this.moveables.  add(player);
-
- // *** redundant commented out code
-//    this.sprites.    addAll(coins);
-//    this.sprites.    addAll(rockets);
-//    this.moveables.  addAll(rockets);
-
-//    this.moveables.  addAll(coins);
-//    this.collidables.addAll(coins);
-//    this.collidables.addAll(rockets);
   }
 
 
@@ -189,9 +143,9 @@ public class GameManager {
    * "heart01.png" to "heart05.png".
    */
   private void setupHeartAnimations(){
-    heartAnimaton = new PImage[5];
+    heartAnimation = new PImage[5];
     for(int i = 1; i <= 5; i++){
-      heartAnimaton[i - 1] = window.loadImage("images/Hearts/heart0" + i + ".png");
+      heartAnimation[i - 1] = window.loadImage("images/Hearts/heart0" + i + ".png");
     }
   }
 
@@ -272,23 +226,19 @@ public class GameManager {
    */
   public void resertToStart(){
     sprites.    clear();
-    moveables.  clear();
-    collidables.clear();
+    collideables.clear();
     rockets.    clear();
     coins.      clear();
-    collidables.clear();
+    collideables.clear();
     this.sprites.    add(background);
-    this.moveables.  add(background);
     this.sprites.    add(player);
-    this.moveables.  add(player);
     background.setSpeed(0f);
     player.setScore(0);
     player.setNumberOfCoinsCollected(0);
     player.setHearts(0);
     heart. setPosition(new PVector(window.random(window.width, window.width * 2), window.random(0,window.height)));
     sprites.    add(heart);
-    collidables.add(heart);
-    moveables.  add(heart);
+    collideables.add(heart);
   }
 
   /**
@@ -329,8 +279,8 @@ public class GameManager {
    * This method moves each object in the list of moveables.
    */
   private void move(){
-    for(Movable move : moveables){
-      move.move();
+    for(Sprite sprite : sprites){
+      sprite.move();
     }
   }
 
@@ -342,8 +292,8 @@ public class GameManager {
    * If the player collides with a Heart, the player gains a heart.
    */
   public void checkForCollisions(){
-    ArrayList<Collidable> toRemove = new ArrayList<Collidable>();
-    for (Collidable temp : collidables) {
+    ArrayList<Collideable> toRemove = new ArrayList<Collideable>();
+    for (Collideable temp : collideables) {
       if (temp.collided(player)){
         if(temp instanceof Rocket){
           rocketSound.play();
@@ -358,20 +308,16 @@ public class GameManager {
           if (temp instanceof Coin) {
             coinSound.play();
             player.setNumberOfCoinsCollected(player.getNumberOfCoinsCollected() + 1);
-            sprites.remove((Sprite) temp);
-            toRemove.add(temp);
           } else {
             heartSound.play();
             player.setHearts(player.getHearts() + 1);
-            sprites.remove((Sprite) temp);
-            toRemove.add(temp);
           }
+          sprites.remove((Sprite) temp);
+          toRemove.add(temp);
         }
-
       }
-
     }
-    collidables.removeAll(toRemove);
+    collideables.removeAll(toRemove);
   }
 
 
@@ -404,21 +350,21 @@ public class GameManager {
    * @param event the KeyEvent object representing the key event that occurred
    */
   public void keyEvents(KeyEvent event){
-    switch(gameState){
-      case 0:
-        gameUIS[0].checkForClicks();
-        break;
-      case 1:
+    switch (gameState) {
+      case 0 -> gameUIS[0].checkForClicks();
+      case 1 -> {
         player.keyPressed(event);
         if (event.getKey() == 'p' || event.getKey() == 'P') {
           gameState = 2;
         }
-        break;
-      case 2:
+      }
+      case 2 -> {
         player.keyPressed(event);
         gameUIS[1].keyEvent(event);
-        break;
-      default:;
+      }
+      default -> {
+        ;
+      }
     }
   }
 
@@ -439,16 +385,15 @@ public class GameManager {
    */
   private void manageHeart() {
     if(heart == null){
-      heart = new Heart(new PVector(1000, 440), new PVector(0,0), heartAnimaton, background.getSpeed());
+      heart = new Heart(new PVector(1000, 440), new PVector(0,0), heartAnimation, background.getSpeed());
       sprites.add(heart);
-      collidables.add(heart);
-      moveables.add(heart);
+      collideables.add(heart);
     }
     if(heart.getPosition().x < -1000){
       heart.setPosition(new PVector(window.random(window.width, window.width * 2), window.random(0,window.height)));
       if(!sprites.contains(heart)){
         sprites.add(heart);
-        collidables.add(heart);
+        collideables.add(heart);
       }
     }
     heart.setSpeed(background.getSpeed());
@@ -474,24 +419,22 @@ public class GameManager {
    */
   private void manageRockets(){
     ArrayList<Rocket> rocketsOutOfBound = new ArrayList<Rocket>();
-    int numberofRocketsOffScreen = 0;
+    int numRocketsOffScreen = 0;
 
     for(Rocket temp : rockets){
       temp.setSpeed((background.getSpeed() * -1) - (0.4f * background.getSpeed()));
       if(temp.getPosition().x < -50 ){
         rocketsOutOfBound.add(temp);
-        numberofRocketsOffScreen++;
+        numRocketsOffScreen++;
       }
     }
     rockets.removeAll(rocketsOutOfBound);
     sprites.removeAll(rocketsOutOfBound);
-    moveables.removeAll(rocketsOutOfBound);
-    moveables.removeAll(rocketsOutOfBound);
-    collidables.removeAll(rocketsOutOfBound);
+    collideables.removeAll(rocketsOutOfBound);
 
     if(rockets.size() == 0){
-      numberofRocketsOffScreen = 2;
-      addRockets(numberofRocketsOffScreen);
+      numRocketsOffScreen = 2;
+      addRockets(numRocketsOffScreen);
     }
 
   }
@@ -507,8 +450,7 @@ public class GameManager {
           (background.getSpeed() * -1) - (0.2f * background.getSpeed()));
       rockets.add(tobeAdded);
       sprites.add(tobeAdded);
-      moveables.add(tobeAdded);
-      collidables.add(tobeAdded);
+      collideables.add(tobeAdded);
     }
   }
 
@@ -518,18 +460,14 @@ public class GameManager {
    */
   private void manageCoins(){
     ArrayList<Coin> coinsOutOfBound = new ArrayList<Coin>();
-    int numberofCoinsOffScreen = 0;
     for(Coin temp : coins){
       if(temp.getPosition().x < -50 ){
         coinsOutOfBound.add(temp);
-        numberofCoinsOffScreen++;
       }
     }
     coins.removeAll(coinsOutOfBound);
     sprites.removeAll(coinsOutOfBound);
-    moveables.removeAll(coinsOutOfBound);
-    moveables.removeAll(coinsOutOfBound);
-    collidables.removeAll(coinsOutOfBound);
+    collideables.removeAll(coinsOutOfBound);
     if (coins.size() == 0){
       addCoins();
     }
@@ -545,21 +483,11 @@ public class GameManager {
     Random random = new Random();
     int numberOfCoinsTobeAdded = (int) window.random(0,10);
     int typeOfPatternToPutCoinsIn = random.nextInt(3);
-
-
-    switch(typeOfPatternToPutCoinsIn){
-      case 0:
-        makeCoinsInALine(numberOfCoinsTobeAdded);
-        break;
-      case 1:
-        makeCoinsInZigZag(numberOfCoinsTobeAdded);
-        break;
-      case 2:
-        makeCoinsInARectangle();
-        break;
-      default:
-        makeCoinsScatter(numberOfCoinsTobeAdded);
-
+    switch (typeOfPatternToPutCoinsIn) {
+      case 0 -> makeCoinsInALine(numberOfCoinsTobeAdded);
+      case 1 -> makeCoinsInZigZag(numberOfCoinsTobeAdded);
+      case 2 -> makeCoinsInARectangle();
+      default -> makeCoinsScatter(numberOfCoinsTobeAdded);
     }
 
   }
@@ -584,16 +512,6 @@ public class GameManager {
     float startPositionOfLine = window.random(window.width + window.width / 10f, 2 * window.width * 2);
     float yPositionOfTheLine = window.random(10f, window.height - heightOfRectangle * (coinAnimation[0].height / 50f));
     float speedForAllCoinsInThePattern = window.random(10, 1);
-
-    for(int i = 0; i < y; i++){
-      Coin toBeAdded;
-      for(int j = 0; j < x; j++){
-        toBeAdded = getCoinInstance(startPositionOfLine + j * (coinAnimation[0].height / 50f), yPositionOfTheLine + i * (coinAnimation[0].height / 50f) , speedForAllCoinsInThePattern);
-
-      }
-    }
-
-
   }
 
   /**
@@ -605,13 +523,12 @@ public class GameManager {
     float startPositionOfLine = window.random(window.width + window.width / 10f, 2 * window.width * 2);
     float yPositionOfTheLine = window.random(10f, window.height - 50);
     float speedForAllCoinsInThePattern = window.random(10, 1);
-    int numberOfZigZags = (int) window.random(1, numberOfCoinsTobeAdded - 1);
-    int zigZagStartUporDown = random.nextBoolean() ? 1 : -1;
+    int zigZagStartUpDown = random.nextBoolean() ? 1 : -1;
 
     for(int i = 0; i < numberOfCoinsTobeAdded; i++){
       Coin toBeAdded = getCoinInstance(startPositionOfLine, yPositionOfTheLine, speedForAllCoinsInThePattern);
       startPositionOfLine = startPositionOfLine + toBeAdded.getWidth();
-      yPositionOfTheLine = yPositionOfTheLine + (toBeAdded.getHeight() *  zigZagStartUporDown);
+      yPositionOfTheLine = yPositionOfTheLine + (toBeAdded.getHeight() *  zigZagStartUpDown);
     }
 
   }
@@ -646,8 +563,7 @@ public class GameManager {
         new PVector(0,0), coinAnimation, speedOfCoins);
     coins.add(temp);
     sprites.add(temp);
-    moveables.add(temp);
-    collidables.add(temp);
+    collideables.add(temp);
 
     return temp;
 
@@ -678,84 +594,6 @@ public class GameManager {
     }
     if (gameState == 4) {
       leaderboard.updateLeaderboard();
-    }
-//    System.out.println(System.getenv("MONGODB_URL"));
-  }
-
-  /**
-   * Called when the game is over.
-   * @throws FileNotFoundException if the file to write to cannot be found
-   */
-  public void gameOver() throws FileNotFoundException {
-    isRunning = false;
-    saveGameData("gameState.json");
-    //close window
-  }
-
-  /**
-   * Pauses the game.
-   * This method pauses the game by setting the game state to "paused".
-   */
-  public void pause() {
-    isPaused = true;
-    // Display pause menu, etc.
-  }
-
-  /**
-   * Resumes the paused game, if any.
-   * This method continues the game from where it was paused.
-   * If the game was not paused, this method has no effect.
-   */
-  public void resume() {
-    isPaused = false;
-  }
-
-  /**
-   * Saves the current game data to a file with the specified filename.
-   * @param filename the name of the file to save the game data to
-   * @throws FileNotFoundException if the specified file cannot be found or created
-   */
-  public void saveGameData(String filename) throws FileNotFoundException {
-    // creating JSONObject
-    JSONObject jo = new JSONObject();
-
-    // putting data to JSONObject
-    jo.put("currentLevel", currentLevel);
-    jo.put("currentSpeed", currentSpeed);
-    jo.put("rocketNums", rocketNums);
-//    jo.put("rocketSpeed", rocketSpeed);
-    jo.put("coinsPerWindow", coinsPerWindow);
-    jo.put("zapperNums", zapperNums);
-
-    try {
-      PrintWriter pw = new PrintWriter(filename);
-      pw.write(jo.toJSONString());
-
-      pw.flush();
-      pw.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  /**
-   * Loads game data from the specified file.
-   * @param filename the name of the file containing the game data to be loaded
-   */
-  public void loadGameData(String filename) {
-    try {
-      FileReader reader = new FileReader(filename);
-      StringBuilder jsonData = new StringBuilder();
-      int c = reader.read();
-      while (c != -1) {
-        jsonData.append((char) c);
-        c = reader.read();
-      }
-      reader.close();
-      String gameState = jsonData.toString();
-      //get current leveFl number and speed
-    } catch (IOException e) {
-      e.printStackTrace();
     }
   }
 

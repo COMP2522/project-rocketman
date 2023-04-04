@@ -4,7 +4,7 @@ import processing.core.PVector;
 
 import static processing.core.PApplet.abs;
 
-public class Heart extends Sprite implements Movable, Destroyable, Collidable {
+public class Heart extends Sprite implements Collideable {
 
   private PImage image;
 
@@ -24,9 +24,6 @@ public class Heart extends Sprite implements Movable, Destroyable, Collidable {
 
   public Heart(PVector position, PVector direction, PImage[] animations, float speed) {
     super(position, direction);
-    this.image = image;
-    this.x = x;
-    this.y = y;
     this.speed = speed;
     this.window = Window.getInstance();
     this.index = (int) window.random(0,6);
@@ -37,8 +34,6 @@ public class Heart extends Sprite implements Movable, Destroyable, Collidable {
   }
   public Heart(PVector position, PVector direction, float speed) {
     super(position, direction);
-    this.x = x;
-    this.y = y;
     this.speed = speed;
   }
 
@@ -72,13 +67,7 @@ public class Heart extends Sprite implements Movable, Destroyable, Collidable {
 
   }
 
-  @Override
-  public void setDirection(PVector direction) {
-
-  }
-
   public void draw() {
-
     window.image(animations[index % animations.length], position.x, position.y, animations[0].width / 20f , animations[0].height / 20f);
     animate();
     window.stroke(0);        // set the stroke color to black
@@ -90,7 +79,6 @@ public class Heart extends Sprite implements Movable, Destroyable, Collidable {
     if(window.frameCount % 6 == 0){
       this.index += this.speed;
     }
-
   }
 
   @Override
@@ -100,14 +88,6 @@ public class Heart extends Sprite implements Movable, Destroyable, Collidable {
     float xDistanceOffset = player.getWidth()* .3f;
     float yDistanceOffset = player.getHeight()* .3f;
     return abs(yDistance) < player.getHeight() - xDistanceOffset && abs(xDistance) < player.getWidth() - yDistanceOffset;
-//    float xCoin = this.position.x;
-//    float yCoin = this.position.y;
-//    float xPositionOfPlayer = player.getPosition().x + player.getImage().width / 10f;
-//    float yPositionOfPlayer = player.getPosition().y + player.getImage().width / 10f;
-//    return xCoin < xPositionOfPlayer && xCoin > player.getPosition().x
-//            && yCoin < yPositionOfPlayer && yCoin >
-//            player.getPosition().y;
-
   }
 
   public float getHeight() {
@@ -116,22 +96,6 @@ public class Heart extends Sprite implements Movable, Destroyable, Collidable {
 
   public float getWidth() {
     return width;
-  }
-
-
-  @Override
-  public Boolean isDestroyed() {
-    return null;
-  }
-
-  @Override
-  public void destroy() {
-
-  }
-
-  @Override
-  public void onDestroy() {
-
   }
 
 

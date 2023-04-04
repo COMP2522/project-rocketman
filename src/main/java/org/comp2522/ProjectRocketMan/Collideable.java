@@ -4,7 +4,7 @@ package org.comp2522.ProjectRocketMan;
 /**
  * Defines all the methods a colliable object will implement.
  */
-public interface Collidable {
+public interface Collideable {
 
   /**
    * Checks if the class that implements collidable has collided with Player.

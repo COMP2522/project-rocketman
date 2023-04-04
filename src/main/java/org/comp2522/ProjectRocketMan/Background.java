@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * The Background class represents a scrolling background in a game.
  * It is used to display images that move behind the game objects.
  */
-public class Background extends Sprite implements Movable {
+public class Background extends Sprite {
   private PImage image;
   private float speed;
   ArrayList<Heart> coins;
@@ -78,15 +78,6 @@ public class Background extends Sprite implements Movable {
    */
   public void setSpeed(float speed) {
     this.speed = speed;
-  }
-
-  /**
-   * Sets the direction of this object to the specified PVector.
-   * @param direction the direction to set
-   */
-  @Override
-  public void setDirection(PVector direction) {
-    this.direction = direction;
   }
 
   /**
