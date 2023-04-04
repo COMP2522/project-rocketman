@@ -83,7 +83,6 @@ public class GameManager {
     window.startWindow(this);
   }
 
-
   /**
    * Initializes the game with necessary objects and images.
    * @param sprites The ArrayList of Sprites to add the game objects to.
@@ -92,15 +91,14 @@ public class GameManager {
     this.coins        = new ArrayList<Coin>();
     this.sprites      = sprites;
     this.collideables = new ArrayList<Collideable>();
-    rocket_image      = window.loadImage("images/rockect_images/rocket_3.png");
+    rocket_image      = window.loadImage("images/rocket_images/rocket_3.png");
     PImage rocket_man_image = window.loadImage("images/rocket_man_images/My project2.png");
-    PImage background_images = window.loadImage("images/rocket_man_backgrounds/AIgen.png");
+    PImage background_images = window.loadImage("images/rocket_man_backgrounds/main.png");
     menu_background   = window.loadImage("images/rocket_man_backgrounds/Start.png");
     coinSound         = new SoundFile(window, "music/coin.wav");
     heartSound        = new SoundFile(window, "music/heart.wav");
     rocketSound       = new SoundFile(window, "music/rocket.wav");
     gameState         = 0;
-
 
     background = new Background(
         background_images,
@@ -202,7 +200,7 @@ public class GameManager {
         manageCoins();
         manageHeart();
         manageBackground();
-        updatePlayerScoer();
+        updatePlayerScore();
         break;
       case 2:
         System.out.println("Inside case 2");
@@ -217,14 +215,13 @@ public class GameManager {
         gameUIS[3].draw();
       default:
         //Game has ended.
-        ;
     }
   }
 
   /**
    * Resets the game to the beginning to re-run the game.
    */
-  public void resertToStart(){
+  public void resetToStart(){
     sprites.    clear();
     collideables.clear();
     rockets.    clear();
@@ -372,7 +369,7 @@ public class GameManager {
   /**
    * Updates the player's score based on the current speed of the background.
    */
-  private void updatePlayerScoer(){
+  private void updatePlayerScore(){
     player.setScore((int) (player.getScore() + background.getSpeed()));
   }
 
@@ -487,16 +484,7 @@ public class GameManager {
       case 0 -> makeCoinsInALine(numberOfCoinsTobeAdded);
       case 1 -> makeCoinsInZigZag(numberOfCoinsTobeAdded);
       case 2 -> makeCoinsInARectangle();
-      default -> makeCoinsScatter(numberOfCoinsTobeAdded);
     }
-
-  }
-
-  /**
-   * Scatters a given number of coins across the game area.
-   * @param numberOfCoinsTobeAdded the number of coins to be scattered.
-   */
-  private void makeCoinsScatter(int numberOfCoinsTobeAdded) {
   }
 
   /**
@@ -512,6 +500,13 @@ public class GameManager {
     float startPositionOfLine = window.random(window.width + window.width / 10f, 2 * window.width * 2);
     float yPositionOfTheLine = window.random(10f, window.height - heightOfRectangle * (coinAnimation[0].height / 50f));
     float speedForAllCoinsInThePattern = window.random(10, 1);
+
+    for(int i = 0; i < y; i++){
+      for(int j = 0; j < x; j++){
+        getCoinInstance(startPositionOfLine + j * (coinAnimation[0].height / 50f), yPositionOfTheLine + i * (coinAnimation[0].height / 50f), speedForAllCoinsInThePattern);
+      }
+    }
+
   }
 
   /**
@@ -550,7 +545,6 @@ public class GameManager {
 
   }
 
-
   /**
    * Creates a new instance of the Coin class with the specified parameters.
    * @param xPosition the x position of the coin on the screen
@@ -564,9 +558,7 @@ public class GameManager {
     coins.add(temp);
     sprites.add(temp);
     collideables.add(temp);
-
     return temp;
-
   }
 
   /**

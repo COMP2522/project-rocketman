@@ -13,7 +13,7 @@ public class DeadGameUI extends GameUI{
   void buttonClicked(String label) {
     switch (label) {
       case "Retry" -> {
-        manager.resertToStart();
+        manager.resetToStart();
         manager.setGameState(1);
       }
       case "Main Menu" -> manager.setGameState(0);
