@@ -166,18 +166,18 @@ public class GameManager {
     Button[] pauseButtons = new Button[1];
     pauseButtons[0] = new Button(new PVector(window.width /2 , 400), new PVector(100, 50),"Quit");
 
-    gameUIS[0] = new StartGameUI(new PVector(window.width /2 , 200), new PVector(100, 50), startButtons, this, menu_background);
-    gameUIS[1] = new PauseGameUI(new PVector(window.width /2 , 600), new PVector(100, 50), pauseButtons, this, menu_background);
+    gameUIS[0] = new StartGameUI(startButtons, this, menu_background);
+    gameUIS[1] = new PauseGameUI(pauseButtons, this, menu_background);
 
     Button[] deadButtons = new Button[2];
     deadButtons[0] = new Button(new PVector(window.width /2 , 300), new PVector(100, 50),"Retry");
     deadButtons[1] = new Button(new PVector(window.width /2 , 450), new PVector(100, 50),"Main Menu");
 
-    gameUIS[2] = new DeadGameUI(new PVector(window.width /2 , 600), new PVector(100, 50), deadButtons, this, menu_background);
+    gameUIS[2] = new DeadGameUI(deadButtons, this, menu_background);
 
     Button[] leaderboardButtons = new Button[1];
     leaderboardButtons[0] = new Button(new PVector(window.width / 2, 400), new PVector(100, 50), "Main Menu");
-    leaderboard = new LeaderboardUI(new PVector(window.width / 2, 600), new PVector(100, 50), leaderboardButtons, this, menu_background);
+    leaderboard = new LeaderboardUI(leaderboardButtons, this, menu_background);
     gameUIS[3] = leaderboard;
   }
 
@@ -458,7 +458,7 @@ public class GameManager {
   private void manageCoins(){
     ArrayList<Coin> coinsOutOfBound = new ArrayList<Coin>();
     for(Coin temp : coins){
-      if(temp.getPosition().x < -50 ){
+      if(temp.getPosition().x < -10 ){
         coinsOutOfBound.add(temp);
       }
     }
@@ -478,12 +478,12 @@ public class GameManager {
    */
   private void addCoins() {
     Random random = new Random();
-    int numberOfCoinsTobeAdded = (int) window.random(0,10);
+    int numberOfCoinsTobeAdded = random.nextInt(10);
     int typeOfPatternToPutCoinsIn = random.nextInt(3);
     switch (typeOfPatternToPutCoinsIn) {
       case 0 -> makeCoinsInALine(numberOfCoinsTobeAdded);
       case 1 -> makeCoinsInZigZag(numberOfCoinsTobeAdded);
-      case 2 -> makeCoinsInARectangle();
+      default -> makeCoinsInARectangle();
     }
   }
 

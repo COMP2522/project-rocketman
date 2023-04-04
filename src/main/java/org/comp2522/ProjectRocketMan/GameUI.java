@@ -1,10 +1,9 @@
 package org.comp2522.ProjectRocketMan;
 
 import processing.core.PImage;
-import processing.core.PVector;
 import processing.event.KeyEvent;
 
-public abstract class GameUI extends Sprite{
+public abstract class GameUI {
 
   protected Button[] buttons;
 
@@ -13,8 +12,7 @@ public abstract class GameUI extends Sprite{
   protected PImage background;
 
 
-  public GameUI(PVector position, PVector direction, Button[] buttons, GameManager manager, PImage background) {
-    super(position, direction);
+  public GameUI(Button[] buttons, GameManager manager, PImage background) {
     window = Window.getInstance();
     this.manager = manager;
     this.buttons = buttons;
