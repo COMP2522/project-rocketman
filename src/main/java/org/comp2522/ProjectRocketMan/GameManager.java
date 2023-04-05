@@ -33,6 +33,8 @@ public class GameManager {
 
   private List<Sprite> sprites;
 
+  private List<Sprite> moveables;
+
   private List<Collideable> collideables;
 
   private  List<Coin> coins;
@@ -90,6 +92,7 @@ public class GameManager {
   public void init(ArrayList<Sprite> sprites) {
     this.coins        = new ArrayList<Coin>();
     this.sprites      = sprites;
+    this.moveables    = moveables;
     this.collideables = new ArrayList<Collideable>();
     rocket_image      = window.loadImage("images/rocket_images/rocket_3.png");
     PImage rocket_man_image = window.loadImage("images/rocket_man_images/My project2.png");
@@ -119,8 +122,10 @@ public class GameManager {
 
     setupCoinAnimations();
     setupHeartAnimations();
-    this.sprites.    add(background);
-    this.sprites.    add(player);
+    this.sprites.add(background);
+    this.sprites.add(player);
+    this.moveables.add(background);
+    this.moveables.add(player);
   }
 
 
@@ -222,13 +227,16 @@ public class GameManager {
    * Resets the game to the beginning to re-run the game.
    */
   public void resetToStart(){
-    sprites.    clear();
+    sprites.clear();
+    moveables.clear();
     collideables.clear();
-    rockets.    clear();
-    coins.      clear();
+    rockets.clear();
+    coins.clear();
     collideables.clear();
-    this.sprites.    add(background);
-    this.sprites.    add(player);
+    this.sprites.add(background);
+    this.sprites.add(player);
+    this.moveables.add(background);
+    this.moveables.add(player);
     background.setSpeed(0f);
     player.setScore(0);
     player.setNumberOfCoinsCollected(0);
@@ -243,6 +251,7 @@ public class GameManager {
    */
   private void draw(){
     drawSprites();
+    drawMoveables();
     drawInformation();
   }
 
@@ -273,11 +282,23 @@ public class GameManager {
   }
 
   /**
+   * Draws all the moveables in the list of moveables.
+   * */
+  private void drawMoveables() {
+    for (Sprite moveable: moveables) {
+      moveable.draw();
+    }
+  }
+
+  /**
    * This method moves each object in the list of moveables.
    */
   private void move(){
     for(Sprite sprite : sprites){
       sprite.move();
+    }
+    for (Sprite moveable: moveables) {
+      moveable.move();
     }
   }
 
@@ -384,12 +405,14 @@ public class GameManager {
     if(heart == null){
       heart = new Heart(new PVector(1000, 440), new PVector(0,0), heartAnimation, background.getSpeed());
       sprites.add(heart);
+      moveables.add(heart);
       collideables.add(heart);
     }
     if(heart.getPosition().x < -1000){
       heart.setPosition(new PVector(window.random(window.width, window.width * 2), window.random(0,window.height)));
       if(!sprites.contains(heart)){
         sprites.add(heart);
+        moveables.add(heart);
         collideables.add(heart);
       }
     }
@@ -427,6 +450,7 @@ public class GameManager {
     }
     rockets.removeAll(rocketsOutOfBound);
     sprites.removeAll(rocketsOutOfBound);
+    moveables.removeAll(rocketsOutOfBound);
     collideables.removeAll(rocketsOutOfBound);
 
     if(rockets.size() == 0){
@@ -447,6 +471,7 @@ public class GameManager {
           (background.getSpeed() * -1) - (0.2f * background.getSpeed()));
       rockets.add(tobeAdded);
       sprites.add(tobeAdded);
+      moveables.add(tobeAdded);
       collideables.add(tobeAdded);
     }
   }
@@ -464,6 +489,7 @@ public class GameManager {
     }
     coins.removeAll(coinsOutOfBound);
     sprites.removeAll(coinsOutOfBound);
+    moveables.removeAll(coinsOutOfBound);
     collideables.removeAll(coinsOutOfBound);
     if (coins.size() == 0){
       addCoins();
@@ -557,6 +583,7 @@ public class GameManager {
         new PVector(0,0), coinAnimation, speedOfCoins);
     coins.add(temp);
     sprites.add(temp);
+    moveables.add(temp);
     collideables.add(temp);
     return temp;
   }
