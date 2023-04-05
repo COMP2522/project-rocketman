@@ -19,7 +19,7 @@ import processing.sound.SoundFile;
  * @version 1.0  2023-03-30
  */
 public class GameManager {
-  private Window window;
+  private final Window window;
   private Background background;
 
   private SoundFile coinSound;
@@ -48,9 +48,10 @@ public class GameManager {
   private PImage[] coinAnimation;
 
   private PImage[] heartAnimation;
-
-
+  
   private GameUI[] gameUIS;
+  
+  private final float halfWindowWidth;
 
 
   /**
@@ -67,22 +68,14 @@ public class GameManager {
 
   LeaderboardUI leaderboard;
 
-
-  /**
-   * This constructor initializes the game state variables and
-   * creates an empty ArrayList for rockets..
-   */
-  public GameManager() {
-    rockets = new ArrayList<Rocket>();
-  }
-
   /**
    * This method starts the program by initializing a new instance of the Window class
    * and starting the window. It also sets the isRunning flag to true.
    */
-  public void start() {
+  public GameManager() {
     window = Window.getInstance(600,1000);
     window.startWindow(this);
+    halfWindowWidth = (float) window.width / 2;
   }
 
   /**
@@ -112,21 +105,16 @@ public class GameManager {
     );
 
     player = Player.getInstance(
-        new PVector(window.width * 0.10f,window.height / 2),
+        new PVector(window.width * 0.10f,(float) window.height / 2),
         new PVector(1,1),
         rocket_man_image,
         0
     );
 
-
     setUpGameUIs();
     setupCoinAnimations();
     setupHeartAnimations();
-
-    this.sprites.add(background);
-    this.sprites.add(player);
-    this.moveables.add(background);
-    this.moveables.add(player);
+    setupBackgroundPlayer();
   }
 
 
@@ -162,27 +150,28 @@ public class GameManager {
 
     //Setup Start UI
     gameUIS    = new GameUI[4];
-    //set up buttons
-    Button[] startButtons = new Button[3];
-    startButtons[0] = new Button(new PVector(window.width /2 , 200), new PVector(100, 50),"Start");
-    startButtons[1] = new Button(new PVector(window.width /2 , 300), new PVector(100, 50),"Leaderboard");
-    startButtons[2] = new Button(new PVector(window.width /2 , 400), new PVector(100, 50),"Quit");
 
-    //set up buttons
+    //set up buttons for start
+    Button[] startButtons = new Button[3];
+    startButtons[0] = new Button(new PVector(halfWindowWidth , 200), new PVector(100, 50),"Start");
+    startButtons[1] = new Button(new PVector(halfWindowWidth , 300), new PVector(100, 50),"Leaderboard");
+    startButtons[2] = new Button(new PVector(halfWindowWidth , 400), new PVector(100, 50),"Quit");
+
+    //set up buttons for pause
     Button[] pauseButtons = new Button[1];
-    pauseButtons[0] = new Button(new PVector(window.width /2 , 400), new PVector(100, 50),"Quit");
+    pauseButtons[0] = new Button(new PVector(halfWindowWidth , 400), new PVector(100, 50),"Quit");
 
     gameUIS[0] = new StartGameUI(startButtons, this, menu_background);
     gameUIS[1] = new PauseGameUI(pauseButtons, this, menu_background);
 
     Button[] deadButtons = new Button[2];
-    deadButtons[0] = new Button(new PVector(window.width /2 , 300), new PVector(100, 50),"Retry");
-    deadButtons[1] = new Button(new PVector(window.width /2 , 450), new PVector(100, 50),"Main Menu");
+    deadButtons[0] = new Button(new PVector(halfWindowWidth , 300), new PVector(100, 50),"Retry");
+    deadButtons[1] = new Button(new PVector(halfWindowWidth , 450), new PVector(100, 50),"Main Menu");
 
     gameUIS[2] = new DeadGameUI(deadButtons, this, menu_background);
 
     Button[] leaderboardButtons = new Button[1];
-    leaderboardButtons[0] = new Button(new PVector(window.width / 2, 400), new PVector(100, 50), "Main Menu");
+    leaderboardButtons[0] = new Button(new PVector(halfWindowWidth, 400), new PVector(100, 50), "Main Menu");
     leaderboard = new LeaderboardUI(leaderboardButtons, this, menu_background);
     gameUIS[3] = leaderboard;
   }
@@ -195,6 +184,7 @@ public class GameManager {
   public void manageTheGame(){
     switch(gameState){
       case 0:
+        //main menu
         gameUIS[0].draw();
         break;
       case 1:
@@ -209,7 +199,6 @@ public class GameManager {
         updatePlayerScore();
         break;
       case 2:
-        System.out.println("Inside case 2");
         gameUIS[1].draw();
         break;
         //State when the game is paused;
@@ -218,6 +207,7 @@ public class GameManager {
         gameUIS[2].draw();
         break;
       case 4:
+        //leaderboard
         gameUIS[3].draw();
       default:
         //Game has ended.
@@ -228,16 +218,8 @@ public class GameManager {
    * Resets the game to the beginning to re-run the game.
    */
   public void resetToStart(){
-    sprites.clear();
-    moveables.clear();
-    collideables.clear();
-    rockets.clear();
-    coins.clear();
-    collideables.clear();
-    this.sprites.add(background);
-    this.sprites.add(player);
-    this.moveables.add(background);
-    this.moveables.add(player);
+    clearAll();
+    setupBackgroundPlayer();
     background.setSpeed(0.5f);
     player.setScore(0);
     player.setNumberOfCoinsCollected(0);
@@ -246,6 +228,28 @@ public class GameManager {
     sprites.add(heart);
     moveables.add(heart);
     collideables.add(heart);
+  }
+
+  /**
+   * Clear all the lists.
+   * */
+  private void clearAll() {
+    sprites.clear();
+    moveables.clear();
+    collideables.clear();
+    rockets.clear();
+    coins.clear();
+    collideables.clear();
+  }
+
+  /**
+   * Add background and player
+   * */
+  private void setupBackgroundPlayer() {
+    this.sprites.add(background);
+    this.sprites.add(player);
+    this.moveables.add(background);
+    this.moveables.add(player);
   }
 
   /**
@@ -281,8 +285,6 @@ public class GameManager {
       sprite.draw();
     }
   }
-
-
 
   /**
    * This method moves each object in the list of moveables.
@@ -372,11 +374,9 @@ public class GameManager {
         gameUIS[1].keyEvent(event);
       }
       default -> {
-        ;
       }
     }
   }
-
 
   /**
    * Updates the player's score based on the current speed of the background.
@@ -384,7 +384,6 @@ public class GameManager {
   private void updatePlayerScore(){
     player.setScore((int) (player.getScore() + background.getSpeed()));
   }
-
 
   /**
    * This method manages the behavior of the Heart sprite in the game.
@@ -421,7 +420,6 @@ public class GameManager {
 
     }
   }
-
 
   /**
    * This method manages the rockets in the game, by updating their speed and
@@ -615,7 +613,6 @@ public class GameManager {
    * @param args command line arguments (not used in this implementation)
    */
   public static void main(String[] args) {
-    GameManager manager = new GameManager();
-    manager.start();
+    new GameManager();
   }
 }
