@@ -34,11 +34,6 @@ public class Window extends PApplet {
   static Window window;
 
   /**
-   * A collection for Sprites
-   */
-  ArrayList<Sprite> sprites;
-
-  /**
    * This stores the instance of the player
    */
   Player player;
@@ -56,7 +51,6 @@ public class Window extends PApplet {
   Window(int height, int width){
     this.heightOfWindow = height;
     this.widthOfWindow = width;
-    sprites = new ArrayList<Sprite>();
   }
 
 
@@ -83,7 +77,7 @@ public class Window extends PApplet {
    * Initializes all objects.
    */
   public void setup() {
-    manager.init(sprites);
+    manager.init();
     player = Player.getInstance();
     gameBackground = new SoundFile(this, "music/background_babbu.mp3");
     menuBackground = new SoundFile(this, "music/background.mp3");
