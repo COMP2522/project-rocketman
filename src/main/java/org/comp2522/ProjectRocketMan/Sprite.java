@@ -9,8 +9,6 @@ import processing.core.PVector;
  */
 public abstract class Sprite {
 
-
-
   protected PVector position;
 
   protected PVector direction;
@@ -20,8 +18,39 @@ public abstract class Sprite {
     this.position = position;
   }
 
+  abstract void draw();
+
+  /**
+   * Sets the position of the movable object to the specified x and y coordinates.
+   * @param position - The position to set.
+   *
+   */
+  abstract void setPosition(PVector position);
 
 
-  void draw(){}
+  /**
+   * Returns the current position of the movable object
+   * as an object containing x and y coordinates.
+   * @return An object containing the x and y coordinates of the movable object's position.
+   */
+  abstract PVector getPosition();
+
+  /**
+   * Moves the movable object by its own velocity amount in the x and y directions.
+   *
+   */
+  abstract void move();
+
+  /**
+   * Returns the speed of the movable object.
+   * @return A double value containing the x and y velocities of the movable object.
+   */
+  abstract float getSpeed();
+
+  /**
+   * Sets the velocity of the movable object to the specified values in the x and y directions.
+   * @param speed The velocity to set in both direction.
+   */
+  abstract void setSpeed(float speed);
 
 }

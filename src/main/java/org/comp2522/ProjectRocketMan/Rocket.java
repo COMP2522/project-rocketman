@@ -2,13 +2,12 @@ package org.comp2522.ProjectRocketMan;
 
 import processing.core.PImage;
 import processing.core.PVector;
-import java.util.ArrayList;
 import static processing.core.PApplet.*;
 
 /**
  * The Rocket class represents a rocket object that can move and collide with other objects.
  */
-public class Rocket extends Sprite implements Movable, Collidable {
+public class Rocket extends Sprite implements Collideable {
 
   /**
    * Stores the rocket image.
@@ -111,25 +110,6 @@ public class Rocket extends Sprite implements Movable, Collidable {
   }
 
   /**
-   * Sets the direction of the rocket to the specified direction.
-   *
-   * @param direction the new direction of the rocket
-   */
-  @Override
-  public void setDirection(PVector direction) {
-    // This method is not implemented for the Rocket class.
-  }
-
-  /**
-   * Manages a list of rockets.
-   *
-   * @param rockets the list of rockets to manage
-   */
-  public static void manageItself(ArrayList<Rocket> rockets){
-    //TODO: This method is not implemented for the Rocket class.
-  }
-
-  /**
    * Checks if the rocket has collided with the specified player.
    *
    * @param player the player to check for a collision with
@@ -142,6 +122,6 @@ public class Rocket extends Sprite implements Movable, Collidable {
     float xDistanceOffset = player.getWidth()* .3f;
     float yDistanceOffset = player.getHeight()* .3f;
     return abs(yDistance) < player.getHeight() - xDistanceOffset &&
-            abs(xDistance) < player.getWidth() - yDistanceOffset;
+           abs(xDistance) < player.getWidth() - yDistanceOffset;
   }
 }

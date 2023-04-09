@@ -5,29 +5,27 @@ import processing.core.PVector;
 import processing.event.KeyEvent;
 
 public class DeadGameUI extends GameUI{
-  public DeadGameUI(PVector position, PVector direction, Button[] buttons, GameManager manager, PImage background) {
-    super(position, direction, buttons, manager, background);
+  public DeadGameUI(Button[] buttons, GameManager manager, PImage background) {
+    super(buttons, manager, background);
   }
 
   @Override
   void buttonClicked(String label) {
-    switch (label){
-      case "Retry":
-        manager.resertToStart();
+    switch (label) {
+      case "Retry" -> {
+        manager.resetToStart();
         manager.setGameState(1);
-        break;
-      case "Main Menu":
-        manager.setGameState(0);
-//        window.exit();
-        break;
-      default:
+      }
+      case "Main Menu" -> manager.setGameState(0);
+      default -> {
         ;
+      }
     }
 
   }
 
   @Override
   void keyEvent(KeyEvent keyEvent) {
-
+    //no key events
   }
 }

@@ -16,8 +16,8 @@ public class LeaderboardUI extends GameUI {
 
   private final Database database;
   private ArrayList<LeaderboardScore> scores;
-  public LeaderboardUI(PVector position, PVector direction, Button[] buttons, GameManager manager, PImage background) {
-    super(position, direction, buttons, manager, background);
+  public LeaderboardUI(Button[] buttons, GameManager manager, PImage background) {
+    super(buttons, manager, background);
     window = Window.getInstance();
     this.manager = manager;
     this.background = background;
@@ -55,6 +55,6 @@ public class LeaderboardUI extends GameUI {
 
   @Override
   void keyEvent(KeyEvent keyEvent) {
-
+    //no key events
   }
 }
