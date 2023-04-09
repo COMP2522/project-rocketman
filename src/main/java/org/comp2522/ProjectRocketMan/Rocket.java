@@ -2,10 +2,14 @@ package org.comp2522.ProjectRocketMan;
 
 import processing.core.PImage;
 import processing.core.PVector;
-import static processing.core.PApplet.*;
+
+import static processing.core.PApplet.abs;
 
 /**
  * The Rocket class represents a rocket object that can move and collide with other objects.
+ *
+ * @author Mangat Toor
+ * @version 1.0.0
  */
 public class Rocket extends Sprite implements Collideable {
 
@@ -27,11 +31,11 @@ public class Rocket extends Sprite implements Collideable {
   /**
    * Constructs a Rocket object with the specified position, direction, and speed.
    *
-   * @param position the initial position of the rocket
+   * @param position  the initial position of the rocket
    * @param direction the initial direction of the rocket
-   * @param speed the speed at which the rocket moves
+   * @param speed     the speed at which the rocket moves
    */
-  public Rocket(PVector position, PVector direction,float speed){
+  public Rocket(PVector position, PVector direction, float speed) {
     super(position, direction);
     this.window = Window.getInstance();
     this.speed = speed;
@@ -40,12 +44,12 @@ public class Rocket extends Sprite implements Collideable {
   /**
    * Constructs a Rocket object with the specified position, direction, image, and speed.
    *
-   * @param position the initial position of the rocket
+   * @param position  the initial position of the rocket
    * @param direction the initial direction of the rocket
-   * @param image the image to use for the rocket
-   * @param speed the speed at which the rocket moves
+   * @param image     the image to use for the rocket
+   * @param speed     the speed at which the rocket moves
    */
-  public Rocket(PVector position, PVector direction, PImage image, float speed){
+  public Rocket(PVector position, PVector direction, PImage image, float speed) {
     super(position, direction);
     this.image = image;
     this.window = Window.getInstance();
@@ -60,16 +64,6 @@ public class Rocket extends Sprite implements Collideable {
   }
 
   /**
-   * Sets the position of the rocket to the specified position.
-   *
-   * @param position the new position of the rocket
-   */
-  @Override
-  public void setPosition(PVector position) {
-    this.position = position;
-  }
-
-  /**
    * Returns the current position of the rocket.
    *
    * @return the current position of the rocket
@@ -77,6 +71,16 @@ public class Rocket extends Sprite implements Collideable {
   @Override
   public PVector getPosition() {
     return position;
+  }
+
+  /**
+   * Sets the position of the rocket to the specified position.
+   *
+   * @param position the new position of the rocket
+   */
+  @Override
+  public void setPosition(PVector position) {
+    this.position = position;
   }
 
   /**
@@ -116,12 +120,12 @@ public class Rocket extends Sprite implements Collideable {
    * @return true if the rocket has collided with the player, false otherwise
    */
   @Override
-  public boolean collided(Player player){
+  public boolean collided(Player player) {
     float yDistance = this.position.y - player.position.y;
     float xDistance = this.position.x - player.position.x;
-    float xDistanceOffset = player.getWidth()* .3f;
-    float yDistanceOffset = player.getHeight()* .3f;
-    return abs(yDistance) < player.getHeight() - xDistanceOffset &&
-           abs(xDistance) < player.getWidth() - yDistanceOffset;
+    float xDistanceOffset = player.getWidth() * .3f;
+    float yDistanceOffset = player.getHeight() * .3f;
+    return abs(yDistance) < player.getHeight() - xDistanceOffset
+        && abs(xDistance) < player.getWidth() - yDistanceOffset;
   }
 }
