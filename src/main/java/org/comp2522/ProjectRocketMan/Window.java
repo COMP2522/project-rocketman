@@ -1,42 +1,21 @@
 package org.comp2522.ProjectRocketMan;
 
 import processing.core.PApplet;
-import processing.sound.SoundFile;
 import processing.event.KeyEvent;
-
-import java.util.ArrayList;
+import processing.sound.SoundFile;
 
 /**
  * Runs the applet.
- * @author JeevanJot Kaur
  *
+ * @author Jeevanjot Virk
+ * @version 1.0.0
  */
 public class Window extends PApplet {
-
-  /**
-   * Background music
-   * */
-  SoundFile gameBackground;
-
-  /**
-   * Background music for menu.
-   * */
-  SoundFile menuBackground;
-
-  /**
-   * Holds the manager class instance.
-   */
-  GameManager manager;
 
   /**
    * Static variable to store the instance of the Window.
    */
   static Window window;
-
-  /**
-   * This stores the instance of the player
-   */
-  Player player;
 
   /**
    * Height of the Window.
@@ -48,20 +27,57 @@ public class Window extends PApplet {
    */
   private final int widthOfWindow;
 
-  Window(int height, int width){
+  /**
+   * Background music.
+   */
+  SoundFile gameBackground;
+
+  /**
+   * Background music for menu.
+   */
+  SoundFile menuBackground;
+
+  /**
+   * Holds the manager class instance.
+   */
+  GameManager manager;
+
+  /**
+   * This stores the instance of the player.
+   */
+  Player player;
+
+  /**
+   * Constructor for the Window class.
+   *
+   * @param height Height of the Window.
+   * @param width  Width of the Window.
+   */
+  private Window(int height, int width) {
     this.heightOfWindow = height;
     this.widthOfWindow = width;
   }
 
-
-  public static Window getInstance(int height, int width){
-    if(window == null){
+  /**
+   * Get a window instance.
+   *
+   * @param height Height of the Window.
+   * @param width  Width of the Window.
+   * @return Window instance
+   */
+  public static Window getInstance(int height, int width) {
+    if (window == null) {
       return window = new Window(height, width);
     }
-    return  window;
+    return window;
   }
 
-  public static Window getInstance(){
+  /**
+   * Get a window instance.
+   *
+   * @return Window instance.
+   */
+  public static Window getInstance() {
     return window;
   }
 
@@ -127,17 +143,29 @@ public class Window extends PApplet {
     }
   }
 
-
+  /**
+   * Mouse clicked event handler.
+   */
   @Override
   public void mouseClicked() {
     manager.mouseEvents();
   }
 
+  /**
+   * Key pressed event handler.
+   *
+   * @param event key events
+   */
   public void keyPressed(KeyEvent event) {
     manager.keyEvents(event);
   }
 
-  public void startWindow(GameManager manager){
+  /**
+   * Start window method.
+   *
+   * @param manager GameManager
+   */
+  public void startWindow(GameManager manager) {
     this.manager = manager;
     String[] appletArgs = new String[]{"eatBubbles"};
     PApplet.runSketch(appletArgs, this);
