@@ -65,19 +65,6 @@ public class HeartTest {
   }
 
   /**
-
-   Tests the update method of the Heart class.
-   It checks if the heart's x-coordinate is updated correctly.
-   */
-  @Test
-  public void testUpdate() {
-    final float delta = 0.01f;
-    heart.update(speed);
-    assertEquals(speed, heart.getPosition().x, delta);
-  }
-
-  /**
-
    Tests the collided method of the Heart class.
    It checks if the heart collides with the player when they are within the offset distance.
    It also checks if the heart does not collide with the player when they are beyond the offset distance.

@@ -10,8 +10,6 @@ import static processing.core.PApplet.abs;
 public class Coin extends Sprite implements Collideable {
 
   private PImage[] animations;
-
-
   private int index;
   private float speed;
   private Window window;

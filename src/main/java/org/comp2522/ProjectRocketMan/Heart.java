@@ -11,8 +11,6 @@ public class Heart extends Sprite implements Collideable {
   private PImage[] animations;
 
   private int index;
-  private float x;
-  private float y;
   private float speed;
   private Window window;
 
@@ -35,10 +33,6 @@ public class Heart extends Sprite implements Collideable {
   public Heart(PVector position, PVector direction, float speed) {
     super(position, direction);
     this.speed = speed;
-  }
-
-  public void update(float speed) {
-    x -= speed;
   }
 
   @Override

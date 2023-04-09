@@ -11,17 +11,17 @@ public class Button {
   /**
    * The position of the button on the screen.
    */
-  private PVector position;
+  private final PVector position;
 
   /**
    * The dimensions of the button (width and height).
    */
-  private PVector dimensions;
+  private final PVector dimensions;
 
   /**
    * The Processing window in which the button is drawn.
    */
-  private Window window;
+  private final Window window;
 
   /**
    * The label text displayed on the button.
