@@ -48,7 +48,7 @@ public class LeaderboardUI extends GameUI {
     this.manager = manager;
     this.background = background;
     this.database = Database.getInstance();
-    this.scores = new ArrayList<LeaderboardScore>();
+    this.scores = new ArrayList<>();
   }
 
   /**
@@ -56,7 +56,7 @@ public class LeaderboardUI extends GameUI {
    */
   public void updateLeaderboard() {
     ArrayList<Document> documents = database.getLeaderBoard();
-    scores = new ArrayList<LeaderboardScore>();
+    scores = new ArrayList<>();
     int y = 50;
     int lineHeight = 60;
     for (int i = 0; i < documents.size(); i++) {
