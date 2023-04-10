@@ -1,6 +1,5 @@
 package org.comp2522.ProjectRocketMan;
 
-import java.util.ArrayList;
 import processing.core.PImage;
 import processing.core.PVector;
 
@@ -24,11 +23,6 @@ public class Background extends Sprite {
   private float speed;
 
   /**
-   * Coins in the background.
-   * */
-  ArrayList<Coin> coins;
-
-  /**
    * Window instance.
    * */
   private final Window window;
@@ -46,7 +40,6 @@ public class Background extends Sprite {
     this.window = Window.getInstance();
     this.image = image;
     this.speed = speed;
-    this.coins = new ArrayList<>();
   }
 
   /**
@@ -60,7 +53,6 @@ public class Background extends Sprite {
     super(position,direction);
     this.window = Window.getInstance();
     this.speed = speed;
-    this.coins = new ArrayList<>();
   }
 
   /**
