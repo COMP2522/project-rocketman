@@ -56,8 +56,9 @@ public class Database {
             .version(ServerApiVersion.V1)
             .build())
         .build();
-    MongoClient mongoClient = MongoClients.create(settings);
-    mongoDB = mongoClient.getDatabase("test");
+    try (MongoClient mongoClient = MongoClients.create(settings)) {
+      mongoDB = mongoClient.getDatabase("test");
+    }
   }
 
   /**
@@ -109,7 +110,7 @@ public class Database {
    * @return an ArrayList of Documents
    */
   public ArrayList<Document> getLeaderBoard() {
-    ArrayList<Document> scores = new ArrayList<Document>();
+    ArrayList<Document> scores = new ArrayList<>();
     try (MongoCursor<Document> cursor = mongoDB.getCollection("scores")
         .find()
         .sort(descending("score")).limit(5).iterator()) {

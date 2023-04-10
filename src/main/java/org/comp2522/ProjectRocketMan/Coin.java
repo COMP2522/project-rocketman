@@ -163,8 +163,8 @@ public class Coin extends Sprite implements Collideable {
    */
   @Override
   public boolean collided(Player player) {
-    float yDistance = this.position.y - player.position.y;
     float xDistance = this.position.x - player.position.x;
+    float yDistance = this.position.y - player.position.y;
     float xDistanceOffset = player.getWidth() * .3f;
     float yDistanceOffset = player.getHeight() * .3f;
     return abs(yDistance)

@@ -64,11 +64,11 @@ public class GameManager {
    */
   private List<Sprite> sprites;
   /**
-   * List to keep track of the moveables.
+   * List to keep track of the movables.
    */
   private List<Sprite> moveables;
   /**
-   * List to keep track of the collideables.
+   * List to keep track of to collide ables.
    */
   private List<Collideable> collideables;
   /**
@@ -137,11 +137,11 @@ public class GameManager {
    * Initializes the game with necessary objects and images.
    */
   public void init() {
-    this.coins = new ArrayList<Coin>();
-    this.sprites = new ArrayList<Sprite>();
-    this.moveables = new ArrayList<Sprite>();
-    this.collideables = new ArrayList<Collideable>();
-    rockets = new ArrayList<Rocket>();
+    this.coins = new ArrayList<>();
+    this.sprites = new ArrayList<>();
+    this.moveables = new ArrayList<>();
+    this.collideables = new ArrayList<>();
+    rockets = new ArrayList<>();
     rocket_image = window.loadImage("images/rocket_images/rocket_3.png");
     menu_background = window.loadImage("images/rocket_man_backgrounds/Start.png");
     coinSound = new SoundFile(window, "music/coin.wav");
@@ -185,7 +185,7 @@ public class GameManager {
 
   /**
    * Initializes an array of PImages for heart animations.
-   * Loads images from the "images/Hearts/" directory, with filenames
+   * Load images from the "images/Hearts/" directory, with filenames
    * "heart01.png" to "heart05.png".
    */
   private void setupHeartAnimations() {
@@ -340,8 +340,8 @@ public class GameManager {
 
     window.text("Coins: " + player.getNumberOfCoinsCollected(), window.width - 250, 20);
     window.text("Hearts: " + player.getHearts(), window.width - 350, 20);
-    window.textSize(20);
-    window.textAlign(window.CENTER, window.CENTER);
+
+
     window.text("Current Score: " + player.getScore(), window.width - 100, 20);
 
     window.text("Coins: " + player.getNumberOfCoinsCollected(), window.width - 250, 20);
@@ -374,7 +374,7 @@ public class GameManager {
    * If the player collides with a Heart, the player gains a heart.
    */
   public void checkForCollisions() {
-    ArrayList<Collideable> toRemove = new ArrayList<Collideable>();
+    ArrayList<Collideable> toRemove = new ArrayList<>();
     for (Collideable temp : collideables) {
       if (temp.collided(player)) {
         if (temp instanceof Rocket) {
@@ -506,7 +506,7 @@ public class GameManager {
    * set of rockets to the game.
    */
   private void manageRockets() {
-    ArrayList<Rocket> rocketsOutOfBound = new ArrayList<Rocket>();
+    ArrayList<Rocket> rocketsOutOfBound = new ArrayList<>();
     int numRocketsOffScreen = 0;
 
     for (Rocket temp : rockets) {
@@ -553,7 +553,7 @@ public class GameManager {
    * and adding new ones if necessary.
    */
   private void manageCoins() {
-    ArrayList<Coin> coinsOutOfBound = new ArrayList<Coin>();
+    ArrayList<Coin> coinsOutOfBound = new ArrayList<>();
     for (Coin temp : coins) {
       if (temp.getPosition().x < -10) {
         coinsOutOfBound.add(temp);
@@ -612,7 +612,7 @@ public class GameManager {
   }
 
   /**
-   * Adds the specified number of coins to the current game board in a zig-zag pattern.
+   * Adds the specified number of coins to the current game board in a zigzag pattern.
    *
    * @param numberOfCoinsTobeAdded the number of coins to add to the board
    */
