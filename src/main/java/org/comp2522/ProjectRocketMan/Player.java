@@ -235,7 +235,8 @@ public class Player extends Sprite {
         setSpeed(maxSpeed);
       }
     } else {
-      if (keyCode == UP && position.y < image.height / 20f) { //put the logic of movement in move
+      //put the logic of movement in move
+      if (keyCode == UP && position.y < image.height / 20f) {
         if (speed != 0) {
           speed = 0;
         }
