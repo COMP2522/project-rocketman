@@ -48,6 +48,6 @@ public class DeadGameUI extends GameUI {
    */
   @Override
   void keyEvent(KeyEvent keyEvent) {
-    //no key events
+    //no specific key events
   }
 }

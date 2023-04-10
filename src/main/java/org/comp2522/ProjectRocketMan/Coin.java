@@ -20,7 +20,7 @@ public class Coin extends Sprite implements Collideable {
   private PImage[] animations;
 
   /**
-   * Index.
+   * Index of the coins.
    */
   private int index;
 
@@ -128,14 +128,12 @@ public class Coin extends Sprite implements Collideable {
   @Override
   public void setSpeed(float speed) {
     this.speed = speed;
-
   }
 
   /**
    * Draws the animated object on the screen with its current position and animation frame.
    */
   public void draw() {
-
     window.image(animations[index % animations.length],
         position.x, position.y,
         animations[0].width / 50f,

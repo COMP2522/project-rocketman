@@ -45,6 +45,6 @@ public class StartGameUI extends GameUI {
    */
   @Override
   void keyEvent(KeyEvent keyEvent) {
-    //empty
+    //no specific key events
   }
 }

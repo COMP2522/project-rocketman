@@ -536,7 +536,8 @@ public class GameManager {
    */
   private void addRockets(int rocketsToAdd) {
     for (int i = 0; i < rocketsToAdd; i++) {
-      Rocket tobeAdded = new Rocket(new PVector(window.random(window.width, window.width * 2),
+      Rocket tobeAdded = new Rocket(
+          new PVector(window.random(window.width, window.width * 2),
           window.random(0, window.height)),
           new PVector(window.random(-1, 1),
               window.random(-1, 1)), rocket_image,
