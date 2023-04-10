@@ -1,6 +1,6 @@
 # Are you the best RocketMan?
 
-<img alt="rocketman" src="C:\Users\miche\Documents\COMP2522\March28\project-rocketman\images\rocket_man_images\rocket_man_2.jpg" width="400"/>
+![RocketMan](https://github.com/COMP2522/project-rocketman/blob/main/images/rocket_man_images/rocket_man_2.jpg)
 
 ## How To Play
 1. Clone the repository to a folder of your choice.
@@ -50,3 +50,5 @@
 - BackgroundTest
 - ButtonTest
 - CoinTest
+## UML Diagram
+![Diagram](https://github.com/COMP2522/project-rocketman/blob/main/images/UMLDiagram/FinalUMLDiagram.png)
