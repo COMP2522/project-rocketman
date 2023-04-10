@@ -56,9 +56,8 @@ public class Database {
             .version(ServerApiVersion.V1)
             .build())
         .build();
-    try (MongoClient mongoClient = MongoClients.create(settings)) {
-      mongoDB = mongoClient.getDatabase("test");
-    }
+    MongoClient mongoClient = MongoClients.create(settings);
+    mongoDB = mongoClient.getDatabase("test");
   }
 
   /**
