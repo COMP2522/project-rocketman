@@ -26,7 +26,7 @@ public class Background extends Sprite {
   /**
    * Coins in the background.
    * */
-  ArrayList<Heart> coins;
+  ArrayList<Coin> coins;
 
   /**
    * Window instance.
