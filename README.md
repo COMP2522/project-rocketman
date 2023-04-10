@@ -50,5 +50,5 @@
 - BackgroundTest
 - ButtonTest
 - CoinTest
-##UML Diagram
+## UML Diagram
 ![Diagram](https://github.com/COMP2522/project-rocketman/blob/main/images/UMLDiagram/FinalUMLDiagram.png)
