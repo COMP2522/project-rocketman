@@ -494,8 +494,6 @@ public class GameManager {
   private void manageBackground() {
     if (window.frameCount % 200 == 0) {
       background.setSpeed(Window.min(10f, background.getSpeed() + 0.2f));
-      System.out.println(background.getSpeed() + "\n");
-
     }
   }
 
@@ -522,7 +520,6 @@ public class GameManager {
     collideables.removeAll(rocketsOutOfBound);
 
     if (rockets.size() == 0) {
-      System.out.println("Inside rocket = 0");
       numRocketsOffScreen = 2;
       addRockets(numRocketsOffScreen);
     }
